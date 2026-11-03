@@ -50,9 +50,9 @@ To feature it in the lab, add an entry to `lab` with the same `id` as `viz` and 
 
 Each skill can list `projects` by slug. Those become links. Leave `projects` empty when there is no project to point at.
 
-### Experience, education, now
+### Experience, education, about
 
-`experience`, `education`, `now`, and `about` are the timeline and the intro. The résumé page and the PDF come from `content/resume.json`, not these fields. The phone number and the street address are intentionally not in either file.
+`experience`, `education`, and `about` are the timeline and the intro. The résumé page and the PDF come from `content/resume.json`, not these fields. The phone number and the street address are intentionally not in either file.
 
 ### Reading tracker
 

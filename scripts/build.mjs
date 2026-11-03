@@ -271,12 +271,10 @@ function home() {
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <p class="kicker">${esc(site.person.kicker)}</p>
         <h1>${esc(site.person.name)}</h1>
         <p class="lede">${esc(site.person.lede)}</p>
         <ul class="chips">${chips}</ul>
         ${actions("")}
-        <div class="now"><strong>Now</strong><p>${esc(site.now)}</p></div>
       </div>
       <figure class="portrait">
         <img src="${esc(site.person.photo)}" alt="${esc(site.person.photoAlt)}" width="720" height="1200">

@@ -2,7 +2,6 @@
   "person": {
     "name": "Patrick Barry",
     "shortName": "Patrick Barry",
-    "kicker": "GNC Engineer, SpaceX",
     "lede": "GNC Engineer at SpaceX, on Starshield. I work on beam planning and tracking algorithms.",
     "email": "pbarry670@gmail.com",
     "github": "https://github.com/pbarry670",
@@ -12,9 +11,7 @@
     "photoCaption": "",
     "photo": "photo/falcon9.webp"
   },
-  "now": "GNC Engineer at SpaceX, on Starshield, since June 2026. I work on beam planning and tracking algorithms. I live in Los Angeles.",
   "about": [
-    "I'm a GNC Engineer at SpaceX. I work on Starshield, on beam planning and tracking algorithms.",
     "I finished an M.S. in aerospace engineering at Georgia Tech in May 2026, in the BS/MS honors program. The B.S. was there too, in three years, in May 2025. Undergraduate GPA was 4.0.",
     "Before that I interned at Johns Hopkins APL in Summer 2025, on error-state Kalman filters and robust flight control. I also did undergraduate research in the Dynamics and Control Systems Lab, and I led avionics and controls for the Ramblin' Rocket Club for two years.",
     "I live in Los Angeles. I'm originally from Annandale, Virginia, and I went to school in Atlanta. I'm an Eagle Scout, July 2020. I play tennis, run, lift, and read."
