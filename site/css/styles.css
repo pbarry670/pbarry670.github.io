@@ -20,7 +20,34 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
+img, canvas, iframe, video, svg { max-width: 100%; }
+.hero-grid,
+.work-grid,
+.stage,
+.split,
+.skill-groups,
+.interest-grid,
+.tracker,
+.gallery,
+.video-grid,
+.timeline,
+.card,
+.prose,
+.hero-grid > *,
+.work-grid > *,
+.stage > *,
+.split > *,
+.skill-groups > *,
+.interest-grid > *,
+.tracker > *,
+.gallery > *,
+.video-grid > *,
+.timeline li,
+.timeline li > * {
+  min-width: 0;
+  max-width: 100%;
+}
 body {
   margin: 0;
   background:
@@ -334,7 +361,8 @@ pre {
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 14px;
-  overflow: auto;
+  overflow-x: auto;
+  max-width: 100%;
   font-family: var(--mono);
   font-size: 0.82rem;
   line-height: 1.45;

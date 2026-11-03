@@ -281,7 +281,7 @@ function home() {
       </div>
       <figure class="portrait">
         <img src="${esc(site.person.photo)}" alt="${esc(site.person.photoAlt)}" width="720" height="1200">
-        <figcaption>${esc(site.person.photoCaption)}</figcaption>
+        ${site.person.photoCaption ? `<figcaption>${esc(site.person.photoCaption)}</figcaption>` : ""}
       </figure>
     </div>
   </section>
