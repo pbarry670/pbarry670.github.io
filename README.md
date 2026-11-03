@@ -52,7 +52,7 @@ Each skill can list `projects` by slug. Those become links. Leave `projects` emp
 
 ### Experience, education, now
 
-`experience`, `education`, `now`, and `about` are the timeline and the intro. The resume page and the PDF are generated from the same fields. The phone number and the street address are intentionally not in this file.
+`experience`, `education`, `now`, and `about` are the timeline and the intro. The résumé page and the PDF come from `content/resume.json`, not these fields. The phone number and the street address are intentionally not in either file.
 
 ### Reading tracker
 
@@ -64,7 +64,7 @@ The progress line is `read / bibliography`. The source note in the JSON says wha
 
 ### Resume PDF
 
-The résumé PDF served by the site is `assets/resume/Patrick_Barry_Resume.pdf`. Replace that file to use your own PDF. `python3 scripts/make_resume.py assets/resume/Patrick_Barry_Resume.pdf` regenerates it from `content/site.json`.
+The résumé PDF served by the site is `assets/resume/Patrick_Barry_Resume.pdf`. Wording lives in `content/resume.json`. `python3 scripts/render_resume.py` reprints that file with headless Chromium. The page at `/resume/` is built from the same JSON.
 
 ## What is not in the site
 

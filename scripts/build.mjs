@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
 const site = JSON.parse(await readFile(path.join(root, "content", "site.json"), "utf8"));
+const resumeDoc = JSON.parse(await readFile(path.join(root, "content", "resume.json"), "utf8"));
 
 function esc(value) {
   return String(value ?? "")
@@ -29,6 +30,7 @@ function linkKing(data) {
     else {
       hit.read = true;
       if (item.favorite) hit.favorite = true;
+      item.canonical = hit.title;
     }
   }
   if (unmatched.length) {
@@ -229,11 +231,28 @@ function home() {
     .join("");
 
   const interests = site.interests
-    .map(
-      (item) => `<article class="interest">
+    .map((item) => {
+      const video = item.video
+        ? `<figure class="shot">
+            <video autoplay muted loop playsinline preload="metadata" poster="${esc(item.video.poster)}">
+              <source src="${esc(item.video.src)}" type="video/mp4">
+            </video>
+            <figcaption>${esc(item.video.caption)}</figcaption>
+          </figure>`
+        : "";
+      return `<article class="interest${item.video ? " wide" : ""}">
         <h3>${esc(item.title)}</h3>
         <p>${esc(item.body)}</p>
-      </article>`
+        ${video}
+      </article>`;
+    })
+    .join("");
+  const photoStrip = (site.photos || [])
+    .map(
+      (photo) => `<figure class="shot">
+        <img src="${esc(photo.src)}" alt="${esc(photo.alt)}" loading="lazy" decoding="async">
+        <figcaption>${esc(photo.caption)}</figcaption>
+      </figure>`
     )
     .join("");
 
@@ -342,6 +361,7 @@ function home() {
           <p><a href="reading/">Reading list</a></p>
         </article>
       </div>
+      <div class="photo-strip">${photoStrip}</div>
     </div>
   </section>
   <section id="contact">
@@ -434,9 +454,7 @@ function readingPage() {
   const shelf = site.reading.king.read
     .map(
       (item) =>
-        `<li>${item.favorite ? `<span class="star">Favorite · </span>` : ""}${esc(item.title)}${
-          item.series ? ` <span class="mark">${esc(item.series)}</span>` : ""
-        }</li>`
+        `<li>${item.favorite ? `<span class="star">Favorite · </span>` : ""}${esc(item.canonical || item.title)}</li>`
     )
     .join("");
   const bookList = king.bib
@@ -495,46 +513,39 @@ function readingPage() {
   });
 }
 
-function resumePage() {
-  const blocks = site.experience
+function resumeJobs(entries) {
+  return entries
     .map(
-      (job) => `<li>
-        <div class="when">${esc(job.when)}<br>${esc(job.where)}</div>
-        <div>
-          <h3>${esc(job.role)}</h3>
-          <p class="org">${esc(job.org)}</p>
-          <ul>${job.bullets.map((bullet) => `<li>${esc(bullet)}</li>`).join("")}</ul>
-        </div>
-      </li>`
-    )
-    .join("");
-  const schools = site.education
-    .map(
-      (school) => `<article class="edu-card">
-        <h3>${esc(school.credential)}</h3>
-        <p class="org">${esc(school.school)}</p>
-        <p class="meta"><span>${esc(school.when)}</span></p>
-        <p>${esc(school.detail)}</p>
+      (entry) => `<article class="resume-job">
+        <h3>${esc(entry.org)}</h3>
+        <p class="resume-role">${esc(entry.title)}</p>
+        <ul>${entry.bullets.map((bullet) => `<li>${esc(bullet)}</li>`).join("")}</ul>
       </article>`
     )
     .join("");
-  const skills = site.skills
-    .map((group) => {
-      const items = group.items
-        .map((item) => `<div class="skill"><b>${esc(item.name)}</b><span class="level">${esc(item.level)}</span></div>`)
-        .join("");
-      return `<div class="skill-group"><h3>${esc(group.group)}</h3>${items}</div>`;
-    })
+}
+
+function resumePage() {
+  const doc = resumeDoc;
+  const edu = `<p class="org">${esc(doc.education.school)}</p>
+    <ul>${doc.education.degrees.map((line) => `<li>${esc(line)}</li>`).join("")}</ul>
+    <p>${esc(doc.education.coursework)}</p>`;
+  const skills = doc.skills
+    .map((row) => `<p><strong>${esc(row.label)}:</strong> ${esc(row.text)}</p>`)
     .join("");
-  const pubs = site.publications
-    .map((pub) => `<li><a href="${esc(pub.href)}">${esc(pub.title)}</a>. ${esc(pub.authors)}. ${esc(pub.venue)}.</li>`)
+  const achievements = doc.achievements.map((line) => `<p>${esc(line)}</p>`).join("");
+  const pubs = doc.publications
+    .map(
+      (paper) => `<p>${esc(paper.authors)} <em>${esc(paper.title)}</em> ${esc(paper.venue)} <a href="${esc(paper.href)}">${esc(paper.href)}</a></p>`
+    )
     .join("");
-  const body = `<article class="wrap">
+  const row = (label, inner) => `<section class="resume-row"><h2>${label}</h2><div>${inner}</div></section>`;
+  const body = `<article class="wrap resume-sheet">
     <header class="resume-top">
       <div>
         <p class="kicker">Resume</p>
         <h1>${esc(site.person.name)}</h1>
-        <p>${esc(site.person.location)}</p>
+        <p>${esc(doc.contact)}</p>
         <p class="resume-links">
           <a href="mailto:${esc(site.person.email)}">${esc(site.person.email)}</a>
           <a href="${esc(site.person.github)}">GitHub</a>
@@ -543,20 +554,20 @@ function resumePage() {
       </div>
       <a class="button primary" href="${resumePdf}">Download PDF</a>
     </header>
-    <p>${esc(site.resumeNote)}</p>
     <div class="pdf-frame">
       <iframe src="${resumePdf}" title="Patrick Barry resume PDF"></iframe>
     </div>
-    <p class="pdf-fallback">Inline PDF viewers are unreliable on phones. Use Download PDF.</p>
-    <h2>Education</h2>
-    <div class="split">${schools}</div>
-    <p>${esc(site.coursework)}</p>
-    <h2>Experience</h2>
-    <ol class="timeline">${blocks}</ol>
-    <h2>Skills</h2>
-    <div class="skill-groups">${skills}</div>
-    <h2>Publications</h2>
-    <ul>${pubs}</ul>
+    <p class="pdf-fallback">Inline PDF viewers are unreliable on phones. <a href="${resumePdf}">Download the PDF</a>.</p>
+    <div class="resume-copy">
+      ${row("Education", edu)}
+      ${row("Skills", skills)}
+      ${row("Achievements", achievements)}
+      ${row("Publications", pubs)}
+      <h2 class="resume-banner">Experience</h2>
+      ${resumeJobs(doc.experience)}
+      <h2 class="resume-banner">Projects</h2>
+      ${resumeJobs(doc.projects)}
+    </div>
   </article>`;
   return page({
     title: `Resume · ${site.person.name}`,
@@ -581,6 +592,7 @@ await cp(path.join(root, "site", "css"), path.join(dist, "css"), { recursive: tr
 await cp(path.join(root, "site", "js"), path.join(dist, "js"), { recursive: true });
 await cp(path.join(root, "assets", "img"), path.join(dist, "assets", "img"), { recursive: true });
 await cp(path.join(root, "assets", "photo"), path.join(dist, "photo"), { recursive: true });
+await cp(path.join(root, "assets", "video"), path.join(dist, "video"), { recursive: true });
 await cp(path.join(root, "assets", "resume", "Patrick_Barry_Resume.pdf"), path.join(dist, "assets", "resume", "Patrick_Barry_Resume.pdf"));
 await cp(path.join(root, "site", "favicon.svg"), path.join(dist, "favicon.svg"));
 

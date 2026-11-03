@@ -8,9 +8,9 @@
     "github": "https://github.com/pbarry670",
     "linkedin": "https://www.linkedin.com/in/pbarry670",
     "location": "Los Angeles",
-    "photoAlt": "Patrick Barry standing beside a bronze bull statue.",
+    "photoAlt": "Patrick Barry standing under a Falcon 9 booster, next to a Roadster.",
     "photoCaption": "",
-    "photo": "photo/patrick.webp"
+    "photo": "photo/falcon9.webp"
   },
   "now": "GNC Engineer at SpaceX, on Starshield, since June 2026. I work on beam planning and tracking algorithms. I live in Los Angeles.",
   "about": [
@@ -163,7 +163,12 @@
   "interests": [
     {
       "title": "Tennis",
-      "body": "I'm an avid tennis player. You can come find me on the court anytime. I taught at the Mitchell Frank Tennis Academy in Annandale in the summers of 2021, 2022, and 2023, and I managed the primary location in summer 2023."
+      "body": "I'm an avid tennis player. You can come find me on the court anytime. I taught at the Mitchell Frank Tennis Academy in Annandale in the summers of 2021, 2022, and 2023, and I managed the primary location in summer 2023.",
+      "video": {
+        "src": "video/tennis.mp4",
+        "poster": "video/tennis-poster.webp",
+        "caption": "Tennis"
+      }
     },
     {
       "title": "Running",
@@ -176,6 +181,28 @@
     {
       "title": "Rocketry",
       "body": "I led avionics and controls on the Ramblin' Rocket Club for two years. The rockets were Gru, Vector, and the jet vanes vehicle."
+    }
+  ],
+  "photos": [
+    {
+      "src": "photo/golden-gate.webp",
+      "alt": "Patrick Barry standing in front of the Golden Gate Bridge.",
+      "caption": "Golden Gate Bridge"
+    },
+    {
+      "src": "photo/griffith.webp",
+      "alt": "Patrick Barry on a trail above Griffith Observatory, with downtown Los Angeles behind him.",
+      "caption": "Griffith Park, Los Angeles"
+    },
+    {
+      "src": "photo/slickrock.webp",
+      "alt": "Patrick Barry taking a selfie on desert slickrock.",
+      "caption": "Desert slickrock"
+    },
+    {
+      "src": "photo/chipotle.webp",
+      "alt": "Patrick Barry standing in front of a Chipotle.",
+      "caption": "Chipotle"
     }
   ],
   "reading": {
@@ -742,13 +769,11 @@
       },
       {
         "title": "Ender's Game",
-        "author": "Orson Scott Card",
-        "note": "A favorite."
+        "author": "Orson Scott Card"
       },
       {
         "title": "Hyperion",
-        "author": "Dan Simmons",
-        "note": "A favorite."
+        "author": "Dan Simmons"
       }
     ],
     "also": "Children of the Mind is another Card book I like. It is not in the King count."

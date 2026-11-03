@@ -211,13 +211,50 @@ section { padding: 64px 0; }
   border-radius: 16px;
   padding: 8px;
 }
-.shot img, .card-photo {
+.shot img, .shot video, .card-photo {
   width: 100%;
   height: 180px;
   object-fit: cover;
   border-radius: 10px;
   background: #0c1016;
+  display: block;
 }
+.interest.wide .shot { max-width: 760px; }
+.interest.wide .shot video {
+  height: auto;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #07090d;
+}
+.photo-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+.photo-strip .shot img { height: 220px; }
+.resume-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 8px 20px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.resume-sheet h2, .resume-banner {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+.resume-banner { margin-top: 22px; }
+.resume-job h3 { margin: 14px 0 0; font-size: 1.05rem; }
+.resume-role { margin: 0 0 6px; color: var(--text); font-weight: 600; }
+.resume-copy ul { margin: 0 0 8px; color: var(--muted); }
+.resume-copy p { margin: 4px 0; color: var(--muted); }
+.resume-copy a { word-break: break-all; }
 .card h3 a { color: var(--text); text-decoration: none; }
 .card h3 a:hover { color: var(--amber-2); }
 .card p { margin: 0; color: var(--muted); }
@@ -424,7 +461,7 @@ code { font-family: var(--mono); font-size: 0.9em; }
     grid-template-columns: 1fr;
   }
   .interest.wide { grid-column: auto; }
-  .fav-grid { grid-template-columns: 1fr; }
+  .fav-grid, .photo-strip, .resume-row { grid-template-columns: 1fr; }
   .pdf-frame { display: none; }
   .pdf-fallback { display: block; }
   .viz canvas { height: 280px; }

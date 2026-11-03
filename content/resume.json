@@ -1,0 +1,131 @@
+{
+  "name": "PATRICK BARRY",
+  "contact": "Los Angeles, CA | pbarry670@gmail.com | U.S. Citizen | Active Top Secret Clearance",
+  "education": {
+    "school": "Georgia Institute of Technology, Atlanta, GA",
+    "degrees": [
+      "Bachelor of Science, Aerospace Engineering, May 2025 (Final GPA: 4.0)",
+      "Master of Science, Aerospace Engineering, May 2026 through BS/MS Honors Program"
+    ],
+    "coursework": "Relevant Coursework: Optimal Guidance & Control, Control System Design/Analysis, Robotics & Autonomy, Orbital Mechanics, Optimization-Based Learning & Control, Optical Navigation"
+  },
+  "skills": [
+    { "label": "Software", "text": "ROS, Linux, Git, GMAT, SolidWorks, Siemens NX, Microsoft Office" },
+    { "label": "Programming Languages", "text": "MATLAB/Simulink, C, C++, Python, Java, CUDA" },
+    { "label": "Interpersonal", "text": "Communication, Leadership, Teamwork, Organization" }
+  ],
+  "achievements": ["Eagle Scout, July 2020"],
+  "publications": [
+    {
+      "authors": "Barry, Zheng, Caillet, and Reynolds.",
+      "title": "Development of an LQR Controller for a Jet Vanes Thrust-Vectored Rocket.",
+      "venue": "AIAA ARC, 2025.",
+      "href": "https://arc.aiaa.org/doi/10.2514/6.2025-99074"
+    },
+    {
+      "authors": "Zheng, Barry, Ambati, and Vadia.",
+      "title": "Integrated State Estimation Development for Actively Controlled Rockets.",
+      "venue": "AIAA ARC, 2025.",
+      "href": "https://arc.aiaa.org/doi/10.2514/6.2025-99521"
+    }
+  ],
+  "experience": [
+    {
+      "org": "SpaceX",
+      "title": "GNC Engineer, Starshield, June 2026 – Present",
+      "bullets": ["Develop beam planning and tracking algorithms"]
+    },
+    {
+      "org": "Johns Hopkins University Applied Physics Laboratory, Laurel, MD",
+      "title": "Guidance, Navigation, and Control Intern, May 2025 – August 2025",
+      "bullets": [
+        "Developed a robust controller analysis toolset with MATLAB/Simulink to compute stability margins and performance metrics across launch vehicle trajectories given model uncertainty",
+        "Implemented a Kalman filter to perform post-flight error analysis of an inertially guided launch vehicle based on an inertial measurement unit (IMU) error model and measurements along the trajectory",
+        "Designed and ran experiments to estimate error coefficients within a navigation-grade accelerometer, including high g-level vibration table and centrifuge testing in space-grade laboratory facilities",
+        "Processed experimental data with digital filters and Fourier transforms to estimate accelerometer error coefficients with an Unscented Kalman Filter (UKF)"
+      ]
+    },
+    {
+      "org": "Dynamics and Control Systems Laboratory, Georgia Institute of Technology, Atlanta, GA",
+      "title": "Undergraduate Research Assistant, Autonomous Racecar Group, January 2024 – December 2024",
+      "bullets": [
+        "Wrote a Model-Predictive Path Integral (MPPI) nonlinear control algorithm for the F1Tenth racecar platform",
+        "Implemented controller software in Python using PyTorch library for GPU code acceleration; integrated code with the racecar’s existing driving framework using Robot Operating System (ROS)",
+        "Enhanced algorithm for a 13x controller loop speed increase from 3 Hz to 40 Hz",
+        "Wrote simulation and accompanying visualization to fine-tune the controller cost function",
+        "Performed extensive testing in an open laboratory environment to evaluate system performance"
+      ]
+    },
+    {
+      "org": "The Aerospace Corporation, Chantilly, VA",
+      "title": "Vehicle Design and Analysis Intern, May 2024 – August 2024",
+      "bullets": [
+        "Modeled spacecraft concept designs in a concurrent engineering tool to satisfy mission architectures",
+        "Collaborated with subject matter experts to assess feasibility of existing spacecraft designs",
+        "Examined satellite Preliminary and Critical Design Reviews to characterize previous designs and assessed how modifications would affect the system’s size, mass, and power",
+        "Algorithmically analyzed attitude control and propulsion subsystems to balance performance and cost",
+        "Presented study findings to clients and delivered comprehensive documentation packages"
+      ]
+    },
+    {
+      "org": "Aerospace Systems Design Laboratory, Georgia Institute of Technology, Atlanta, GA",
+      "title": "Undergraduate Research Assistant, Sensor Development and Deployment, August 2023 – December 2023",
+      "bullets": [
+        "Collaborated in small team to develop low-cost wireless sensors to measure various properties (temperature, occupancy, air quality, etc.) in campus buildings",
+        "Implemented electrical current sensor software on a Raspberry Pi microprocessor",
+        "Designed sensor printed circuit board (PCB) to manage power supply, data flow, and wireless communication"
+      ]
+    },
+    {
+      "org": "Mitchell Frank Tennis Academy, Annandale, VA",
+      "title": "Tennis Instructor, Summers 2021, 2022, and 2023",
+      "bullets": [
+        "Selected and organized drills and games for children aged 4-14 to foster skill development and self-confidence in a fun environment",
+        "Promoted to manager of primary location for summer 2023; responsible for oversight of multiple coaches and more than 50 students",
+        "Directed fitness program in summer 2023 for elite players seeking college recruitment, promoting discipline and mental toughness to aid players in achieving their goals"
+      ]
+    },
+    {
+      "org": "Campus Recreation Center, Georgia Institute of Technology, Atlanta, GA",
+      "title": "Wilderness Outpost Attendant, January 2023 – May 2023",
+      "bullets": [
+        "Prepared outdoor gear per customer specifications for personal trips and expeditions",
+        "Staffed the front desk, answered questions, and registered patrons for outdoor trips",
+        "Identified innovations solution to unique problems to ensure the Outpost’s needs were met"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "org": "Planetary Supply Drop, Personal Project",
+      "title": "C++ and Python Code Development, May 2025 to present",
+      "bullets": [
+        "Developing a launch-to-landing simulation of a payload delivery to any specified point on Earth using C++ with Python for visualizations",
+        "Utilizing a Kalman filter to perform orbit determination of a satellite based on ground observations",
+        "Derived a Linear Quadratic Regulator (LQR) controller to perform orbit corrections needed due to atmospheric drag, solar radiation pressure, and non-spherical Earth gravity effects",
+        "Implemented a convex trajectory optimization algorithm for a thruster-equipped lander to perform a soft landing"
+      ]
+    },
+    {
+      "org": "Ramblin’ Rocket Club, Georgia Institute of Technology, Atlanta, GA",
+      "title": "Avionics & Controls Lead, August 2023 – May 2025",
+      "bullets": [
+        "Led team of 25+ students to develop avionics suites, software, and controllers for thrust-vectored rockets actuated by jet vanes and motor gimbaling",
+        "Numerically linearized a nonlinear dynamic rocket model to produce trim points and state-space representation of the vehicle across the flight profile",
+        "Developed comprehensive object-oriented MATLAB simulation code repository centered around a closed-loop, 6-DOF simulation with a Linear Quadratic Regulator (LQR) controller to follow a reference trajectory",
+        "Performed Monte Carlo simulations to ensure flight success under diverse environmental conditions and system modeling errors",
+        "Wrote and implemented state estimation algorithms for position, velocity, and attitude in C on an STM32 microcontroller",
+        "Developed electronics for a static fire test system, including remote commands, motor ignition, and servo timing"
+      ]
+    },
+    {
+      "org": "NASA Lucy Student Pipeline Accelerator & Competency Enabler (L’SPACE)",
+      "title": "Deputy Project Manager, January 2023 – May 2023",
+      "bullets": [
+        "Participated in the L’SPACE Mission Concept Academy, receiving mission development skills training from top NASA scientists and engineers",
+        "Served as Deputy Project Manager on an 11-person virtual team to assemble a Preliminary Design Review for a rover mission to Mars’ northern polar region",
+        "Led communications between science and engineering subteams while developing mission specifics, including timeline and operations, while considering past missions and budget constraints"
+      ]
+    }
+  ]
+}
