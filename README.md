@@ -71,3 +71,5 @@ The progress line is `read / bibliography`. The source note in the JSON says wha
 - Phone number.
 - Street address.
 - The original résumé PDF from Google Drive, because that file contains both.
+
+<!-- Trigger Pages deploy -->
