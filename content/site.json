@@ -7,18 +7,18 @@
     "email": "pbarry670@gmail.com",
     "github": "https://github.com/pbarry670",
     "linkedin": "https://www.linkedin.com/in/pbarry670",
-    "location": "Annandale, Virginia",
+    "location": "Los Angeles",
     "photoAlt": "Patrick Barry standing beside a bronze bull statue.",
     "photoCaption": "",
     "photo": "photo/patrick.webp"
   },
-  "now": "GNC Engineer at SpaceX, on Starshield, since June 2026. I work on beam planning and tracking algorithms. The jet vanes rocket is slated for a fall 2026 flight.",
+  "now": "GNC Engineer at SpaceX, on Starshield, since June 2026. I work on beam planning and tracking algorithms. I live in Los Angeles.",
   "about": [
     "I'm a GNC Engineer at SpaceX, working on Starshield. I work on beam planning and tracking algorithms.",
     "I completed my M.S. in Aerospace Engineering at Georgia Tech in May 2026, through the BS/MS honors program. I also finished my bachelor's there, in three years, in May 2025. My final undergraduate GPA was 4.0.",
     "Before SpaceX, the work was guidance, navigation, and control: an internship at the Johns Hopkins University Applied Physics Laboratory in Summer 2025, undergraduate research in Georgia Tech's Dynamics and Control Systems Laboratory, and two years as Avionics & Controls Lead for the Ramblin' Rocket Club GNC project.",
-    "In Summer 2025 at APL I designed error-state Kalman filters and robust flight control systems. Before that I wrote a Model-Predictive Path Integral controller for an autonomous racecar, and I led the avionics, software, and flight-dynamics work on a rocket steered by jet vanes. That rocket is slated for a fall 2026 flight.",
-    "I went to school in Atlanta. I'm from Annandale, Virginia. I'm an Eagle Scout (July 2020). Off the engineering, I play tennis, run, lift, and read."
+    "In Summer 2025 at APL I designed error-state Kalman filters and robust flight control systems. Before that I wrote a Model-Predictive Path Integral controller for an autonomous racecar, and I led the avionics, software, and flight-dynamics work on a rocket steered by jet vanes.",
+    "I live in Los Angeles. I'm originally from Annandale, Virginia, and I went to school in Atlanta. I'm an Eagle Scout (July 2020). Off the engineering, I play tennis, run, lift, and read."
   ],
   "workIntro": "Flight software, state estimation, and controllers. Each card opens a longer page, and the ones with a public repo link straight to it.",
   "heroChips": [
@@ -176,7 +176,7 @@
     },
     {
       "title": "Rocketry",
-      "body": "Rocketry is the through-line, not just a job title. Two years leading avionics and controls on the Ramblin' Rocket Club, from the gimbaled rockets Gru and Vector to the jet vanes vehicle that is slated for a fall 2026 flight."
+      "body": "Rocketry is the through-line, not just a job title. I spent two years leading avionics and controls on the Ramblin' Rocket Club, from the gimbaled rockets Gru and Vector to the jet vanes rocket."
     }
   ],
   "reading": {
@@ -779,7 +779,7 @@
         {
           "name": "Java",
           "level": "Intermediate",
-          "detail": "No public project tied to it yet."
+          "detail": "No public project uses it."
         }
       ]
     },
@@ -969,7 +969,7 @@
       "slug": "jet-vanes",
       "title": "Jet vanes rocket",
       "shortTitle": "Jet vanes",
-      "when": "2023–2025 · Slated for a Fall 2026 Flight",
+      "when": "2023–2025",
       "role": "Avionics & Controls lead",
       "summary": "State estimation and an LQR flight controller for a rocket steered by jet vanes in the motor plume. I led the avionics, the C flight code, and GNCSIM.",
       "tags": [
@@ -1007,7 +1007,7 @@
           "heading": "What We Were Building",
           "paragraphs": [
             "Jet vanes are small diamond-shaped vanes in the exhaust of a solid motor. Deflect them and you get a side force. As far as I know, a collegiate team had not flown this before. I led the electrical, software, and flight-dynamics side of the GNC project in the Ramblin' Rocket Club from 2023 to 2025.",
-            "We started the jet vanes rocket in February 2024. The rocket is slated for a fall 2026 flight."
+            "We started the jet vanes rocket in February 2024."
           ]
         },
         {
@@ -1022,7 +1022,7 @@
           "paragraphs": [
             "LQR is the controller because it lives in the time domain and it is multi-input, multi-output. The command is u = −Kx. Q weights how hard you chase the state. R weights how hard you work the actuators. The rocket is not linear, and thrust, aero, and density all change, so I linearize at breakpoints taken from an open-loop nominal run. At each breakpoint, K = lqr(A, B, Q, R) in MATLAB, and in flight you pick the breakpoint closest to the current state.",
             "The control vector is a desired moment, not a vane angle. That let us finish the controller before the actuator model was settled. Moment becomes side force from the center of gravity, and side force becomes a vane deflection once the static fires gave us that map.",
-            "Closed loop, the rocket goes up, yaws to about 5°, and straightens. Monte Carlo with the gain matrices from a slightly different vehicle still behaved, so we called the controller ready to fly."
+            "Closed loop, the rocket goes up, yaws to about 5°, and straightens. Monte Carlo with the gain matrices from a slightly different vehicle still behaved, so we treated the controller as verified in simulation."
           ]
         },
         {
@@ -1031,14 +1031,14 @@
             "Position and velocity use an extended Kalman filter. Predict integrates the accelerometers. Update takes GPS. Aero is hard to trust, so the predict step does not fly a full dynamics model. GPS loses lock under high-g, and when it does the filter skips the update and lets the covariance grow until lock comes back.",
             "Attitude is a quaternion propagator on the gyro. There isn't a reference sensor accurate enough to correct it: a magnetometer is off by degrees, which is too coarse here. Given the sensors and how short the flight is, the integrated gyro drift was small enough to live with.",
             "On the pad, a separate ground filter estimates accelerometer and gyro biases. The vehicle is sitting still, so a nonzero mean is bias. It has to converge before we arm the flight filter.",
-            "The state machine is Idle, Ground, Fast Ascent, Slow Ascent, Freefall, Landed. We flew the estimation on the avionics test rocket in November 2024. Bad GPS updates pulled the position estimate around. The attitude propagator did its job. The same structure is slated to fly on the jet vanes rocket."
+            "The state machine is Idle, Ground, Fast Ascent, Slow Ascent, Freefall, Landed. We flew the estimation on the avionics test rocket in November 2024. Bad GPS updates pulled the position estimate around. The attitude propagator did its job. That is the structure we built for the jet vanes rocket."
           ]
         },
         {
           "heading": "Hardware and Static Fires",
           "paragraphs": [
             "Sensors are an ADIS16500 IMU and a u-blox GPS, on a board we called Vaney: two STM32s, an XBee, flash, an SD card. Power comes from a separate board that bucks a 4S LiPo down to 3.3 V, 5 V, and 8.4 V for the servos, and it holds the pyro channels. One microcontroller estimates state. The other runs the control law, the servos, telemetry, and logging. The C follows NASA safety-critical coding rules.",
-            "April 2024 we static fired for a nominal thrust curve. The vane mount failed. October 2024 we fired a yaw sweep. The tungsten-copper vanes eroded, so the team moved to pure tungsten. I built the avionics for those tests: an XBee and an Arduino that fire the motor from a safe distance and then run an open-loop servo sweep. A third static fire was still planned as of August 2025, to confirm the tungsten and to finish the deflection-to-side-force curve."
+            "April 2024 we static fired for a nominal thrust curve. The vane mount failed. October 2024 we fired a yaw sweep. The tungsten-copper vanes eroded, so the team moved to pure tungsten. I built the avionics for those tests: an XBee and an Arduino that fire the motor from a safe distance and then run an open-loop servo sweep. The notes from August 2025 still listed a third static fire, to confirm the tungsten and the deflection-to-side-force curve. I am not adding a result for that test."
           ]
         }
       ],
@@ -1290,7 +1290,7 @@
       "slug": "planetary-supply-drop",
       "title": "Planetary supply drop",
       "shortTitle": "Supply drop",
-      "when": "Summer 2025 – present",
+      "when": "2025",
       "role": "Personal project",
       "summary": "A C++ simulation of dropping a payload from orbit onto a chosen point on Earth: orbit control, ballistic entry, a parachute, and a fuel-optimal landing.",
       "tags": [
@@ -1307,7 +1307,7 @@
           "heading": "Why I Started It",
           "paragraphs": [
             "I had just finished the bachelor's and I wanted a problem that used the orbital mechanics and the vehicle dynamics together. The question was: can you drop a payload on a chosen point on Earth from a satellite? The practical answer is probably not worth the cost. It is still a good problem. I wrote the simulation in C++, prototyped algorithms in MATLAB, and drew the results in Python with VPython.",
-            "A spacecraft rides to a circular equatorial low Earth orbit. It carries its own propulsion and a capsule. The capsule enters, drops its heatshield, opens a parachute, then hands off to a lander that thrusts to the point. Propagation is RK4, except the powered-descent optimization, which uses forward Euler. Atmosphere is exponential. Gravity falls off with altitude. The launch vehicle itself is not in the sim yet."
+            "A spacecraft rides to a circular equatorial low Earth orbit. It carries its own propulsion and a capsule. The capsule enters, drops its heatshield, opens a parachute, then hands off to a lander that thrusts to the point. Propagation is RK4, except the powered-descent optimization, which uses forward Euler. Atmosphere is exponential. Gravity falls off with altitude. The launch vehicle is not part of the simulation."
           ]
         },
         {
@@ -1322,7 +1322,7 @@
           "paragraphs": [
             "Ballistic descent propagates speed, flight-path angle, and altitude, starting from a 5° flight-path angle. Drag rotates the path until the capsule is falling straight down at chute altitude. The heatshield mass comes off, the parachute is a simple quadratic drag model, and wind is a biased random cross-range acceleration. That miss is what powered descent has to clean up.",
             "Powered descent is G-FOLD, from the Açıkmeşe, Carson, and Blackmore paper on lossless convexification of the soft-landing problem. Two convex problems: first minimum landing error, then minimum fuel at that error or better. Constraints cover mass, thrust bounds, pointing, glideslope, and speed. Attitude is left out, on the assumption that it can be corrected faster and with less thrust. Aero is left out because the lander is slow. The C++ calls cvxpy for the solve. If it fails, the sim tells you to relax the constraints.",
-            "Orbit determination from ground stations is in the C++ (a Kalman filter on range and range-rate). The README still marks it under construction, along with the launch leg. A successive-convexification version, with time of flight as a free variable, is on the list."
+            "The C++ includes a Kalman filter for orbit determination from ground-station range and range-rate. The published simulation does not include the launch leg, or a successive-convexification version with time of flight left free."
           ]
         }
       ],
@@ -1533,7 +1533,7 @@
         {
           "heading": "The Sensor",
           "paragraphs": [
-            "Fall 2023, in the Energy Infrastructure and Data Engineering group at Georgia Tech's Aerospace Systems Design Laboratory. The brief was small, modular, and cheap. Georgia Tech was looking at building energy use, and the same family of sensors was slated to go into homes in Atlanta to compare HVAC use across neighborhoods. I am describing the plan as it was written up, not a deployment I am claiming is finished.",
+            "Fall 2023, in the Energy Infrastructure and Data Engineering group at Georgia Tech's Aerospace Systems Design Laboratory. The brief was small, modular, and cheap. Georgia Tech was looking at building energy use, and the same family of sensors was planned for homes in Atlanta to compare HVAC use across neighborhoods. That is what the writeup said. I am not claiming the deployment happened.",
             "The current transformer plugged into an audio jack, through an analog-to-digital converter, into a Particle board that posted the readings. Leaving the data on the network meant nobody had to pull an SD card.",
             "The first PCB added a barrel jack so it could run from the wall. The housing was a square box with the antenna outside. The second pass made the board long and skinny so the antenna could live inside, and added a LiPo connector so it could run for a while with no outlet. With assembly instructions written, a unit was $102, which was the point: much cheaper than the commercial sensors, and it already reported online.",
             "My resume also says the current-sensor software ran on a Raspberry Pi. I am leaving both notes here rather than collapsing them into one architecture."
@@ -1581,9 +1581,9 @@
       "slug": "quad-gnc",
       "title": "QuadGNC",
       "shortTitle": "QuadGNC",
-      "when": "Ongoing",
+      "when": "Completed",
       "role": "Personal project",
-      "summary": "In-house GNC, simulation, and flight software for a quadcopter. The public repo is the collection itself. I don't have a longer writeup to put here yet.",
+      "summary": "In-house GNC, simulation, and flight software for a quadcopter. The public repo is the collection itself.",
       "tags": [
         "Quadcopter",
         "GNC"
