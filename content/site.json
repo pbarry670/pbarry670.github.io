@@ -14,11 +14,10 @@
   },
   "now": "GNC Engineer at SpaceX, on Starshield, since June 2026. I work on beam planning and tracking algorithms. I live in Los Angeles.",
   "about": [
-    "I'm a GNC Engineer at SpaceX, working on Starshield. I work on beam planning and tracking algorithms.",
-    "I completed my M.S. in Aerospace Engineering at Georgia Tech in May 2026, through the BS/MS honors program. I also finished my bachelor's there, in three years, in May 2025. My final undergraduate GPA was 4.0.",
-    "Before SpaceX, the work was guidance, navigation, and control: an internship at the Johns Hopkins University Applied Physics Laboratory in Summer 2025, undergraduate research in Georgia Tech's Dynamics and Control Systems Laboratory, and two years as Avionics & Controls Lead for the Ramblin' Rocket Club GNC project.",
-    "In Summer 2025 at APL I designed error-state Kalman filters and robust flight control systems. Before that I wrote a Model-Predictive Path Integral controller for an autonomous racecar, and I led the avionics, software, and flight-dynamics work on a rocket steered by jet vanes.",
-    "I live in Los Angeles. I'm originally from Annandale, Virginia, and I went to school in Atlanta. I'm an Eagle Scout (July 2020). Off the engineering, I play tennis, run, lift, and read."
+    "I'm a GNC Engineer at SpaceX. I work on Starshield, on beam planning and tracking algorithms.",
+    "I finished an M.S. in aerospace engineering at Georgia Tech in May 2026, in the BS/MS honors program. The B.S. was there too, in three years, in May 2025. Undergraduate GPA was 4.0.",
+    "Before that I interned at Johns Hopkins APL in Summer 2025, on error-state Kalman filters and robust flight control. I also did undergraduate research in the Dynamics and Control Systems Lab, and I led avionics and controls for the Ramblin' Rocket Club for two years.",
+    "I live in Los Angeles. I'm originally from Annandale, Virginia, and I went to school in Atlanta. I'm an Eagle Scout, July 2020. I play tennis, run, lift, and read."
   ],
   "workIntro": "Flight software, state estimation, and controllers. Each card opens a longer page, and the ones with a public repo link straight to it.",
   "heroChips": [
@@ -176,11 +175,11 @@
     },
     {
       "title": "Rocketry",
-      "body": "Rocketry is the through-line, not just a job title. I spent two years leading avionics and controls on the Ramblin' Rocket Club, from the gimbaled rockets Gru and Vector to the jet vanes rocket."
+      "body": "I led avionics and controls on the Ramblin' Rocket Club for two years. The rockets were Gru, Vector, and the jet vanes vehicle."
     }
   ],
   "reading": {
-    "intro": "I read a lot. The long project is Stephen King: I'm working through his novels and collections. I also read Orson Scott Card.",
+    "intro": "I read a lot of Stephen King. I'm working through his novels and collections. 11/22/63 is the one I like most. I also like Orson Scott Card and Dan Simmons.",
     "card": {
       "note": "These two are favorites. They are not part of the King count.",
       "favorites": [
@@ -733,7 +732,26 @@
           "kind": "collection"
         }
       ]
-    }
+    },
+    "teaser": "I keep a reading list. Stephen King is the long one. My favorites are 11/22/63, Ender's Game, and Hyperion.",
+    "favorites": [
+      {
+        "title": "11/22/63",
+        "author": "Stephen King",
+        "note": "My favorite of his."
+      },
+      {
+        "title": "Ender's Game",
+        "author": "Orson Scott Card",
+        "note": "A favorite."
+      },
+      {
+        "title": "Hyperion",
+        "author": "Dan Simmons",
+        "note": "A favorite."
+      }
+    ],
+    "also": "Children of the Mind is another Card book I like. It is not in the King count."
   },
   "skills": [
     {
@@ -906,11 +924,11 @@
   ],
   "lab": [
     {
-      "id": "jetvane",
-      "title": "Jet vanes",
-      "project": "jet-vanes",
-      "canvasLabel": "Animation of a rocket regulating pitch with jet vanes, including a 5 degree command.",
-      "blurb": "A pitch-channel sketch of the jet-vane loop. The vane command is a gain on angle error and rate, then a first-order servo, then a moment back on the body. The 5° leg is the yaw maneuver the closed-loop GNCSIM runs were aiming at, drawn here in one plane. Not flight data."
+      "id": "supply",
+      "title": "Supply Drop",
+      "project": "planetary-supply-drop",
+      "canvasLabel": "Ballistic entry trajectory from orbit down to parachute deployment.",
+      "blurb": "This integrates the ballistic equations in edl.cpp with the numbers from main.cpp: 500 km circular orbit, 5 degree flight-path angle, chute deploy at 5 km. The cyan line is chute deploy. The amber line is the 1 km powered-descent handoff. Density is the expression in that file, rho = 1.225 to the power of minus altitude over 8420."
     },
     {
       "id": "mppi",
@@ -933,6 +951,13 @@
       "project": "drone-ddp",
       "canvasLabel": "Planar quadrotor flying over two circular obstacles to a goal.",
       "blurb": "Planar quadrotor dynamics from drone-ddp, flown on a curve that stays off two circles. The MATLAB figures on the project page are the actual DDP / MPC result, including the 3D case. This canvas is the model, not a replay of that run."
+    },
+    {
+      "id": "jetvane",
+      "title": "Jet vanes",
+      "project": "jet-vanes",
+      "canvasLabel": "Animation of a rocket regulating pitch with jet vanes, including a 5 degree command.",
+      "blurb": "A pitch-channel sketch of the jet-vane loop. The vane command is a gain on angle error and rate, then a first-order servo, then a moment back on the body. The 5° leg is the yaw maneuver the closed-loop GNCSIM runs were aiming at, drawn here in one plane. Not flight data."
     }
   ],
   "code": [
@@ -1038,51 +1063,11 @@
           "heading": "Hardware and Static Fires",
           "paragraphs": [
             "Sensors are an ADIS16500 IMU and a u-blox GPS, on a board we called Vaney: two STM32s, an XBee, flash, an SD card. Power comes from a separate board that bucks a 4S LiPo down to 3.3 V, 5 V, and 8.4 V for the servos, and it holds the pyro channels. One microcontroller estimates state. The other runs the control law, the servos, telemetry, and logging. The C follows NASA safety-critical coding rules.",
-            "April 2024 we static fired for a nominal thrust curve. The vane mount failed. October 2024 we fired a yaw sweep. The tungsten-copper vanes eroded, so the team moved to pure tungsten. I built the avionics for those tests: an XBee and an Arduino that fire the motor from a safe distance and then run an open-loop servo sweep. The notes from August 2025 still listed a third static fire, to confirm the tungsten and the deflection-to-side-force curve. I am not adding a result for that test."
+            "April 2024 we static fired for a nominal thrust curve. The vane mount failed. October 2024 we fired a yaw sweep. The tungsten-copper vanes eroded, so the team moved to pure tungsten. I built the avionics for those tests: an XBee and an Arduino that fire the motor from a safe distance and then run an open-loop servo sweep. The notes from August 2025 still listed a third static fire, to confirm the tungsten and the deflection-to-side-force curve."
           ]
         }
       ],
       "images": [
-        {
-          "src": "assets/img/site/gnc-jet-vanes-rocket_01.webp",
-          "alt": "Circular Georgia Tech Ramblin' Rocket Club GNC patch.",
-          "caption": "Georgia Tech Ramblin' Rocket Club GNC patch, from the top of the jet vanes page."
-        },
-        {
-          "src": "assets/img/site/gnc-jet-vanes-rocket_03.webp",
-          "alt": "Nine GNCSIM plots of velocity, attitude, and moments.",
-          "caption": "Closed-loop GNCSIM plots. The yaw channel leaves vertical and comes back."
-        },
-        {
-          "src": "assets/img/site/gnc-jet-vanes-rocket_04.webp",
-          "alt": "Equations linearizing a nonlinear rocket model into state space.",
-          "caption": "Linearization of the rocket model down to state space, from the LQR section."
-        },
-        {
-          "src": "assets/img/site/gnc-jet-vanes-rocket_05.webp",
-          "alt": "Open-loop body velocity, nonlinear model against a linear model.",
-          "caption": "Open-loop body velocity from GNCSIM, nonlinear model against the linear model."
-        },
-        {
-          "src": "assets/img/site/gnc-jet-vanes-rocket_06.webp",
-          "alt": "Euler angle time history.",
-          "caption": "Euler angles from a closed-loop GNCSIM run."
-        },
-        {
-          "src": "assets/img/site/gnc-jet-vanes-rocket_07.webp",
-          "alt": "Bundle of Monte Carlo rocket trajectories.",
-          "caption": "Monte Carlo trajectories from GNCSIM."
-        },
-        {
-          "src": "assets/img/site/gnc-jet-vanes-rocket_08.webp",
-          "alt": "Flat-Earth position error time histories.",
-          "caption": "Flat-Earth position error across the Monte Carlo set."
-        },
-        {
-          "src": "assets/img/site/gnc-jet-vanes-rocket_09.webp",
-          "alt": "Body velocity error time histories.",
-          "caption": "Body-velocity error from the same study."
-        },
         {
           "src": "assets/img/site/gnc-jet-vanes-rocket_10.webp",
           "alt": "Two circuit boards wired together on a bench.",
@@ -1119,7 +1104,7 @@
       ],
       "card": {
         "src": "assets/img/site/gnc-jet-vanes-rocket_11.webp",
-        "alt": "Patrick Barry with two teammates, holding avionics hardware in a field."
+        "alt": "Patrick Barry with two teammates, holding avionics hardware."
       }
     },
     {
@@ -1170,8 +1155,8 @@
       "images": [
         {
           "src": "assets/img/generated/mppi-rollouts.webp",
-          "alt": "Dark plot of an oval track with many sampled trajectories and one highlighted path.",
-          "caption": "Generated here from the kinematic bicycle model in f1tenth-mppi. Axle lengths are 0.1651 m, and the costs are the quadratic position, heading, and speed terms in MPPIControl.py. The green path is the lowest cost of this sample. It is not a frame from the car."
+          "alt": "Dark plot of an oval track with sampled trajectories and one highlighted path.",
+          "caption": "Sampled rollouts from the kinematic bicycle model in f1tenth-mppi. Axle lengths are 0.1651 m. Costs are the quadratic position, heading, and speed terms in MPPIControl.py. Green is the lowest cost of this draw. Not a frame from the car."
         },
         {
           "src": "assets/img/site/autonomous-racecar-control_02.webp",
@@ -1179,34 +1164,9 @@
           "caption": "The F1Tenth car on the bench."
         },
         {
-          "src": "assets/img/site/autonomous-racecar-control_03.webp",
-          "alt": "PyTorch logo.",
-          "caption": "Figure at the start of the parallel-computing section."
-        },
-        {
-          "src": "assets/img/site/autonomous-racecar-control_04.webp",
-          "alt": "Diagram of GPU thread blocks and shared memory.",
-          "caption": "Thread-block diagram from the writeup of the GPU rollout."
-        },
-        {
           "src": "assets/img/site/autonomous-racecar-control_05.webp",
           "alt": "F1Tenth car beside a monitor and keyboard.",
           "caption": "The car beside the lab monitor. I used a gamepad to log the hand-driven laps."
-        },
-        {
-          "src": "assets/img/site/autonomous-racecar-control_06.webp",
-          "alt": "Plot of LiDAR points and a computed centerline.",
-          "caption": "LiDAR returns and the centerline computed from them."
-        },
-        {
-          "src": "assets/img/site/autonomous-racecar-control_07.webp",
-          "alt": "Many cyan trajectories, a green low-cost bundle, and a blue car marker.",
-          "caption": "Debug view from the car. The blue square is the car, the purple line is the centerline, and the green lines are the lowest-cost trajectories."
-        },
-        {
-          "src": "assets/img/site/autonomous-racecar-control_08.webp",
-          "alt": "Another frame of sampled racecar trajectories.",
-          "caption": "Another frame of the same rollout view."
         }
       ],
       "videos": [
@@ -1277,8 +1237,8 @@
       "images": [
         {
           "src": "assets/img/generated/constellation.webp",
-          "alt": "Dark drawing of Earth, three satellite planes, and a red ballistic arc.",
-          "caption": "Generated from the custom MEO layout in runSim.m: three planes, four satellites, inclinations of −60°, 0°, and +60°. The arc uses the sample launch and target in missileTrajSolver.m. Altitude is compressed. This is not a frame from the MATLAB animation."
+          "alt": "Earth with three satellite planes and a red ballistic arc.",
+          "caption": "Drawn from the custom MEO block in runSim.m: three planes, four satellites, inclinations -60, 0, and 60 degrees. The arc is the sample launch and target in missileTrajSolver.m. Altitude is compressed. Not a frame from the MATLAB animation."
         }
       ],
       "card": {
@@ -1328,84 +1288,19 @@
       ],
       "images": [
         {
-          "src": "assets/img/site/planetary-supply-drop_02.webp",
-          "alt": "View of Earth from orbit with a small moon.",
-          "caption": "Opening image on the planetary supply drop page."
+          "src": "assets/img/generated/supply-ballistic.webp",
+          "alt": "Altitude versus downrange for a capsule falling from 500 kilometers.",
+          "caption": "Ballistic descent integrated from edl.cpp with the capsule numbers in main.cpp. It starts at 500 km on a circular orbit, flight-path angle 5 degrees, and stops at the 5 km chute deploy. The density model is the one in that file."
         },
         {
-          "src": "assets/img/site/planetary-supply-drop_03.webp",
-          "alt": "Diagram of hypersonic, parachute, and powered-descent phases.",
-          "caption": "Entry, descent, and landing sequence from the project page."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_04.webp",
-          "alt": "Earth with a green inclined orbit and a magenta satellite.",
-          "caption": "Spacecraft on an inclined orbit, from the orbit section."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_05.webp",
-          "alt": "Diagram of chief and deputy orbits and a relative frame.",
-          "caption": "Chief and deputy in the Clohessy-Wiltshire frame."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_06.webp",
-          "alt": "Diagram of an inclination change between two orbits.",
-          "caption": "Inclination-change geometry."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_07.webp",
-          "alt": "Triangle diagram of the velocity change for a plane change.",
-          "caption": "Velocity change for the plane change."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_08.webp",
-          "alt": "Earth diagram with a ballistic arc and an angle phi.",
-          "caption": "Angle on the Earth covered by the ballistic arc, used to time the capsule release."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_09.webp",
-          "alt": "3D view of a blue entry trajectory toward a red point.",
-          "caption": "Entry visualization from the project page."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_10.webp",
-          "alt": "Plot of capsule speed falling during descent.",
-          "caption": "Capsule speed through ballistic descent."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_11.webp",
-          "alt": "3D view of a nearly vertical blue descent.",
-          "caption": "Descent visualization from the project page."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_12.webp",
-          "alt": "Plot of lander position during powered descent.",
-          "caption": "Lander position during powered descent."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_13.webp",
-          "alt": "3D powered-descent path down to a red point.",
-          "caption": "Powered-descent path down to the drop point."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_14.webp",
-          "alt": "Three position components during powered descent.",
-          "caption": "Lander position components from the G-FOLD solution."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_15.webp",
-          "alt": "Three velocity components during powered descent.",
-          "caption": "Lander velocity during powered descent."
-        },
-        {
-          "src": "assets/img/site/planetary-supply-drop_16.webp",
-          "alt": "Thrust components during powered descent.",
-          "caption": "Lander thrust profile from the G-FOLD solution."
+          "src": "assets/img/generated/supply-dispersion.webp",
+          "alt": "Eighteen parachute paths spreading away from the drop point.",
+          "caption": "Eighteen chute descents from 5 km down to the 1 km powered-descent handoff. Crossrange acceleration is drawn each step from the normal distributions in chuteDynamics: means 0.04 and -0.05 m/s^2, standard deviation 1. The green point is the ideal point over the target, which is where chute descent starts in main.cpp."
         }
       ],
       "card": {
-        "src": "assets/img/site/planetary-supply-drop_04.webp",
-        "alt": "Inclined orbit around Earth."
+        "src": "assets/img/generated/supply-ballistic.webp",
+        "alt": "Altitude versus downrange for the supply-drop capsule."
       }
     },
     {
@@ -1497,11 +1392,6 @@
       ],
       "images": [
         {
-          "src": "assets/img/site/gnc-thrust-vectored-rockets_01.webp",
-          "alt": "Georgia Tech Ramblin' Rocket Club GNC patch.",
-          "caption": "GNC patch from the thrust-vector page."
-        },
-        {
           "src": "assets/img/site/gnc-thrust-vectored-rockets_02.webp",
           "alt": "Patrick Barry leaning over a small rocket avionics bay on a folding table.",
           "caption": "Working the avionics on Gru or Vector."
@@ -1541,11 +1431,6 @@
         }
       ],
       "images": [
-        {
-          "src": "assets/img/site/low-cost-current-transformer_01.webp",
-          "alt": "Circular EIDE logo with buildings and circuit motifs.",
-          "caption": "Mark for the Energy Infrastructure and Data Engineering group, from the current-sensor page."
-        },
         {
           "src": "assets/img/site/low-cost-current-transformer_02.webp",
           "alt": "Breadboard with a Particle board and an audio-jack breakout.",

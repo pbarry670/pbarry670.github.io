@@ -1,5 +1,4 @@
 import { mkdir, readFile, writeFile, cp, rm } from "node:fs/promises";
-import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -86,6 +85,7 @@ function header(prefix) {
     ["Lab", `${prefix}#lab`],
     ["Experience", `${prefix}#experience`],
     ["Skills", `${prefix}#skills`],
+    ["Reading", `${prefix}reading/`],
     ["Beyond", `${prefix}#beyond`],
     ["Resume", `${prefix}resume/`],
   ];
@@ -111,7 +111,7 @@ function footer() {
 function actions(prefix) {
   return `<div class="actions">
     <a class="button primary" href="${prefix}#work">Selected Work</a>
-    <a class="button ghost" href="${prefix}resume/Patrick-Barry-Resume.pdf">Resume</a>
+    <a class="button ghost" href="${prefix}resume/">Resume</a>
     <a class="button ghost" href="mailto:${esc(site.person.email)}">Email</a>
   </div>`;
 }
@@ -130,13 +130,14 @@ function home() {
   const chips = site.heroChips
     .map((chip) => `<li><a href="#skills">${esc(chip)}</a></li>`)
     .join("");
-  const cards = site.projects
-    .map((project, index) => {
-      const klass = index === 0 ? "card feature" : "card";
+  const projectOrder = ["racecar", "planetary-supply-drop", "missile-tracking", "drone-ddp", "thrust-vector", "current-sensor", "jet-vanes", "quad-gnc"];
+  const ordered = projectOrder.map((slug) => projectBySlug[slug]).filter(Boolean);
+  const cards = ordered
+    .map((project) => {
       const photo = project.card
-        ? `<img class="card-photo" src="${esc(project.card.src)}" alt="${esc(project.card.alt)}" width="${project.card.width || 800}" height="${project.card.height || 500}" loading="lazy" decoding="async">`
+        ? `<div class="shot"><img class="card-photo" src="${esc(project.card.src)}" alt="${esc(project.card.alt)}" width="${project.card.width || 800}" height="${project.card.height || 500}" loading="lazy" decoding="async"></div>`
         : "";
-      return `<article class="${klass}">
+      return `<article class="card">
         ${photo}
         <p class="meta"><span>${esc(project.when)}</span><span>${esc(project.role)}</span></p>
         <h3><a href="projects/${esc(project.slug)}.html">${esc(project.title)}</a></h3>
@@ -234,27 +235,6 @@ function home() {
         <p>${esc(item.body)}</p>
       </article>`
     )
-    .join("");
-
-  const pct = Math.round((king.readCount / king.total) * 1000) / 10;
-  const shelf = site.reading.king.read
-    .map(
-      (item) =>
-        `<li>${item.favorite ? `<span class="star">Favorite · </span>` : ""}${esc(item.title)}${
-          item.series ? ` <span class="mark">${esc(item.series)}</span>` : ""
-        }</li>`
-    )
-    .join("");
-  const bookList = king.bib
-    .map(
-      (book) => `<li data-book data-read="${book.read}" data-kind="${esc(book.kind)}" data-title="${esc(book.title)}">
-        <span>${book.favorite ? "★ " : ""}${esc(book.title)}</span>
-        <span class="mark">${book.read ? "Read" : "—"} · ${esc(book.year)} · ${esc(book.kind === "novel" ? "Novel" : "Collection")}</span>
-      </li>`
-    )
-    .join("");
-  const cardFavs = site.reading.card.favorites
-    .map((book) => `<div class="book-pill"><span class="mark">Favorite</span><strong>${esc(book)}</strong><span>Orson Scott Card</span></div>`)
     .join("");
 
   const snippets = site.code
@@ -358,31 +338,8 @@ function home() {
         ${interests}
         <article class="interest wide">
           <h3>Reading</h3>
-          <p>${esc(site.reading.intro)}</p>
-          <div class="card-reads">${cardFavs}</div>
-          <p>${esc(site.reading.card.note)}</p>
-          <div class="tracker">
-            <div>
-              <p class="fraction">${king.readCount} <span>/ ${king.total}</span></p>
-              <div class="bar" role="img" aria-label="${king.readCount} of ${king.total} Stephen King novels and collections"><i style="width:${pct}%"></i></div>
-              <p class="meta"><span>${king.novelsRead} of ${king.novels} novels</span><span>${king.collectionsRead} of ${king.collections} collections</span></p>
-              <p class="fav"><strong>Favorite:</strong> ${esc(site.reading.king.favorite)}</p>
-              <p class="note">${esc(site.reading.king.source)}</p>
-            </div>
-            <div>
-              <h3>Logged So Far</h3>
-              <ul class="read-shelf">${shelf}</ul>
-              <div class="tools">
-                <input data-book-search type="search" placeholder="Find a Title" aria-label="Filter Stephen King titles">
-                <button type="button" data-book-filter="all" aria-pressed="true">All</button>
-                <button type="button" data-book-filter="read" aria-pressed="false">Read</button>
-                <button type="button" data-book-filter="unread" aria-pressed="false">Not Yet</button>
-                <button type="button" data-book-filter="novel" aria-pressed="false">Novels</button>
-                <button type="button" data-book-filter="collection" aria-pressed="false">Collections</button>
-              </div>
-              <ul class="books">${bookList}</ul>
-            </div>
-          </div>
+          <p>${esc(site.reading.teaser)}</p>
+          <p><a href="reading/">Reading list</a></p>
         </article>
       </div>
     </div>
@@ -470,39 +427,136 @@ function projectPage(project) {
   });
 }
 
+const resumePdf = "../assets/resume/Patrick_Barry_Resume.pdf";
+
+function readingPage() {
+  const pct = Math.round((king.readCount / king.total) * 1000) / 10;
+  const shelf = site.reading.king.read
+    .map(
+      (item) =>
+        `<li>${item.favorite ? `<span class="star">Favorite · </span>` : ""}${esc(item.title)}${
+          item.series ? ` <span class="mark">${esc(item.series)}</span>` : ""
+        }</li>`
+    )
+    .join("");
+  const bookList = king.bib
+    .map(
+      (book) => `<li data-book data-read="${book.read}" data-kind="${esc(book.kind)}" data-title="${esc(book.title)}">
+        <span>${book.favorite ? "★ " : ""}${esc(book.title)}</span>
+        <span class="mark">${book.read ? "Read" : "—"} · ${esc(book.year)} · ${esc(book.kind === "novel" ? "Novel" : "Collection")}</span>
+      </li>`
+    )
+    .join("");
+  const favs = (site.reading.favorites || [])
+    .map(
+      (book) => `<article class="fav-card">
+        <p class="mark">Favorite</p>
+        <h3>${esc(book.title)}</h3>
+        <p>${esc(book.author)}</p>
+        ${book.note ? `<p>${esc(book.note)}</p>` : ""}
+      </article>`
+    )
+    .join("");
+  const body = `<article class="wrap prose">
+    <p class="kicker"><a href="../">Home</a></p>
+    <h1>Reading</h1>
+    <p class="lede">${esc(site.reading.intro)}</p>
+    <div class="fav-grid">${favs}</div>
+    <p>${esc(site.reading.also)}</p>
+    <h2>Stephen King</h2>
+    <div class="tracker">
+      <div>
+        <p class="fraction">${king.readCount} <span>/ ${king.total}</span></p>
+        <div class="bar" role="img" aria-label="${king.readCount} of ${king.total} Stephen King novels and collections"><i style="width:${pct}%"></i></div>
+        <p class="meta"><span>${king.novelsRead} of ${king.novels} novels</span><span>${king.collectionsRead} of ${king.collections} collections</span></p>
+        <p class="fav"><strong>Favorite:</strong> ${esc(site.reading.king.favorite)}</p>
+        <p class="note">${esc(site.reading.king.source)}</p>
+      </div>
+      <div>
+        <h3>Logged So Far</h3>
+        <ul class="read-shelf">${shelf}</ul>
+        <div class="tools">
+          <input data-book-search type="search" placeholder="Find a Title" aria-label="Filter Stephen King titles">
+          <button type="button" data-book-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-book-filter="read" aria-pressed="false">Read</button>
+          <button type="button" data-book-filter="unread" aria-pressed="false">Not Yet</button>
+          <button type="button" data-book-filter="novel" aria-pressed="false">Novels</button>
+          <button type="button" data-book-filter="collection" aria-pressed="false">Collections</button>
+        </div>
+        <ul class="books">${bookList}</ul>
+      </div>
+    </div>
+  </article>`;
+  return page({
+    title: `Reading · ${site.person.name}`,
+    description: site.reading.teaser,
+    prefix: "../",
+    body,
+  });
+}
+
 function resumePage() {
   const blocks = site.experience
     .map(
-      (job) => `<section>
-        <h2>${esc(job.role)}</h2>
-        <p><strong>${esc(job.org)}</strong> · ${esc(job.where)} · ${esc(job.when)}</p>
-        <ul>${job.bullets.map((bullet) => `<li>${esc(bullet)}</li>`).join("")}</ul>
-      </section>`
+      (job) => `<li>
+        <div class="when">${esc(job.when)}<br>${esc(job.where)}</div>
+        <div>
+          <h3>${esc(job.role)}</h3>
+          <p class="org">${esc(job.org)}</p>
+          <ul>${job.bullets.map((bullet) => `<li>${esc(bullet)}</li>`).join("")}</ul>
+        </div>
+      </li>`
     )
     .join("");
   const schools = site.education
-    .map((school) => `<p><strong>${esc(school.credential)}</strong>, ${esc(school.school)}, ${esc(school.when)}. ${esc(school.detail)}</p>`)
+    .map(
+      (school) => `<article class="edu-card">
+        <h3>${esc(school.credential)}</h3>
+        <p class="org">${esc(school.school)}</p>
+        <p class="meta"><span>${esc(school.when)}</span></p>
+        <p>${esc(school.detail)}</p>
+      </article>`
+    )
     .join("");
-  const pubs = site.publications.map((pub) => `<li><a href="${esc(pub.href)}">${esc(pub.title)}</a>. ${esc(pub.authors)}. ${esc(pub.venue)}.</li>`).join("");
-  const body = `<article class="wrap resume prose">
-    <header>
-      <h1>${esc(site.person.name)}</h1>
-      <p>${esc(site.person.location)} · <a href="mailto:${esc(site.person.email)}">${esc(site.person.email)}</a> · <a href="${esc(site.person.github)}">GitHub</a> · <a href="${esc(site.person.linkedin)}">LinkedIn</a></p>
-      <p>${esc(site.resumeNote)}</p>
-      <p><a class="button primary" href="Patrick-Barry-Resume.pdf">Download PDF</a></p>
+  const skills = site.skills
+    .map((group) => {
+      const items = group.items
+        .map((item) => `<div class="skill"><b>${esc(item.name)}</b><span class="level">${esc(item.level)}</span></div>`)
+        .join("");
+      return `<div class="skill-group"><h3>${esc(group.group)}</h3>${items}</div>`;
+    })
+    .join("");
+  const pubs = site.publications
+    .map((pub) => `<li><a href="${esc(pub.href)}">${esc(pub.title)}</a>. ${esc(pub.authors)}. ${esc(pub.venue)}.</li>`)
+    .join("");
+  const body = `<article class="wrap">
+    <header class="resume-top">
+      <div>
+        <p class="kicker">Resume</p>
+        <h1>${esc(site.person.name)}</h1>
+        <p>${esc(site.person.location)}</p>
+        <p class="resume-links">
+          <a href="mailto:${esc(site.person.email)}">${esc(site.person.email)}</a>
+          <a href="${esc(site.person.github)}">GitHub</a>
+          <a href="${esc(site.person.linkedin)}">LinkedIn</a>
+        </p>
+      </div>
+      <a class="button primary" href="${resumePdf}">Download PDF</a>
     </header>
+    <p>${esc(site.resumeNote)}</p>
+    <div class="pdf-frame">
+      <iframe src="${resumePdf}" title="Patrick Barry resume PDF"></iframe>
+    </div>
+    <p class="pdf-fallback">Inline PDF viewers are unreliable on phones. Use Download PDF.</p>
     <h2>Education</h2>
-    ${schools}
+    <div class="split">${schools}</div>
     <p>${esc(site.coursework)}</p>
     <h2>Experience</h2>
-    ${blocks}
+    <ol class="timeline">${blocks}</ol>
+    <h2>Skills</h2>
+    <div class="skill-groups">${skills}</div>
     <h2>Publications</h2>
     <ul>${pubs}</ul>
-    <h2>Selected projects</h2>
-    <ul>${site.projects
-      .slice(0, 6)
-      .map((project) => `<li><strong>${esc(project.title)}.</strong> ${esc(project.summary)}</li>`)
-      .join("")}</ul>
   </article>`;
   return page({
     title: `Resume · ${site.person.name}`,
@@ -515,21 +569,20 @@ function resumePage() {
 await rm(dist, { recursive: true, force: true });
 await mkdir(path.join(dist, "projects"), { recursive: true });
 await mkdir(path.join(dist, "resume"), { recursive: true });
+await mkdir(path.join(dist, "reading"), { recursive: true });
+await mkdir(path.join(dist, "assets", "resume"), { recursive: true });
 await writeFile(path.join(dist, "index.html"), home());
 for (const project of site.projects) {
   await writeFile(path.join(dist, "projects", `${project.slug}.html`), projectPage(project));
 }
 await writeFile(path.join(dist, "resume", "index.html"), resumePage());
+await writeFile(path.join(dist, "reading", "index.html"), readingPage());
 await cp(path.join(root, "site", "css"), path.join(dist, "css"), { recursive: true });
 await cp(path.join(root, "site", "js"), path.join(dist, "js"), { recursive: true });
 await cp(path.join(root, "assets", "img"), path.join(dist, "assets", "img"), { recursive: true });
 await cp(path.join(root, "assets", "photo"), path.join(dist, "photo"), { recursive: true });
+await cp(path.join(root, "assets", "resume", "Patrick_Barry_Resume.pdf"), path.join(dist, "assets", "resume", "Patrick_Barry_Resume.pdf"));
 await cp(path.join(root, "site", "favicon.svg"), path.join(dist, "favicon.svg"));
-
-const pdf = spawnSync("python3", [path.join(root, "scripts", "make_resume.py"), path.join(dist, "resume", "Patrick-Barry-Resume.pdf")], {
-  stdio: "inherit",
-});
-if (pdf.status !== 0) process.exit(pdf.status ?? 1);
 
 console.log(
   `Built ${site.projects.length} projects. King tracker ${king.readCount}/${king.total} (${king.novelsRead}/${king.novels} novels, ${king.collectionsRead}/${king.collections} collections).`

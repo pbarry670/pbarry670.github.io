@@ -1,0 +1,303 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 3316 >>
+stream
+BT
+/F1 10 Tf
+13 TL
+1 0 0 1 54 738 Tm
+(PATRICK BARRY) Tj
+T*
+(Los Angeles  |  pbarry670@gmail.com) Tj
+T*
+(https://github.com/pbarry670) Tj
+T*
+(https://www.linkedin.com/in/pbarry670) Tj
+T*
+(U.S. citizen. Active Top Secret clearance.) Tj
+T*
+() Tj
+T*
+(EDUCATION) Tj
+T*
+(M.S. Aerospace Engineering, Georgia Institute of Technology  -  May 2026) Tj
+T*
+(Completed, through the BS/MS honors program. Bachelor's and master's both at Georgia Tech.) Tj
+T*
+(B.S. Aerospace Engineering, Georgia Institute of Technology  -  May 2025) Tj
+T*
+(Finished in three years. Final GPA 4.0.) Tj
+T*
+(Relevant coursework: Optimal Guidance & Control, Control System Design/Analysis, Robotics &) Tj
+T*
+(Autonomy, Orbital Mechanics, Optimization-Based Learning & Control, Optical Navigation.) Tj
+T*
+() Tj
+T*
+(EXPERIENCE) Tj
+T*
+(GNC Engineer  -  SpaceX) Tj
+T*
+(Starshield  |  June 2026 - Present) Tj
+T*
+(- I work on beam planning and tracking algorithms.) Tj
+T*
+() Tj
+T*
+(Guidance, Navigation, and Control Intern  -  Johns Hopkins University Applied Physics Laboratory) Tj
+T*
+(Laurel, MD  |  May 2025 - August 2025) Tj
+T*
+(- Designed error-state Kalman filters and robust flight control systems.) Tj
+T*
+(- Built a MATLAB/Simulink toolset to compute stability margins and performance metrics) Tj
+T*
+(  across launch-vehicle trajectories under model uncertainty.) Tj
+T*
+(- Implemented a Kalman filter for post-flight error analysis of an inertially guided) Tj
+T*
+(  launch vehicle, from an IMU error model and measurements along the trajectory.) Tj
+T*
+(- Designed and ran experiments to estimate error coefficients of a navigation-grade) Tj
+T*
+(  accelerometer, including high-g vibration-table and centrifuge testing.) Tj
+T*
+(- Processed that data with digital filters and Fourier transforms, and estimated the) Tj
+T*
+(  coefficients with an unscented Kalman filter.) Tj
+T*
+() Tj
+T*
+(Undergraduate Research Assistant, Autonomous Racecar Group  -  Dynamics and Control Systems Laboratory, Georgia Tech) Tj
+T*
+(Atlanta, GA  |  January 2024 - December 2024) Tj
+T*
+(- Wrote a Model-Predictive Path Integral controller for the lab's F1Tenth racecars.) Tj
+T*
+(- Implemented it in Python with PyTorch for GPU acceleration, and tied it into the car) Tj
+T*
+(  through ROS.) Tj
+T*
+(- Brought the loop from a few hertz up to 40 Hz. My resume summarizes that as a 13x) Tj
+T*
+(  increase, from 3 Hz to 40 Hz. The racecar page has the longer test notes: about 4 Hz at) Tj
+T*
+(  first, 21 Hz after a custom PyTorch extension, then 40 Hz.) Tj
+T*
+(- Wrote a visualization so I could debug and tune the cost without a full pad setup, and) Tj
+T*
+(  tested at the Indoor Flight Lab.) Tj
+T*
+() Tj
+T*
+(Vehicle Design and Analysis Intern  -  The Aerospace Corporation) Tj
+T*
+(Chantilly, VA  |  May 2024 - August 2024) Tj
+T*
+(- Modeled spacecraft concept designs in a concurrent engineering tool against mission) Tj
+T*
+(  architectures.) Tj
+T*
+(- Worked with subject-matter experts on whether existing designs were feasible, and went) Tj
+T*
+(  through satellite PDRs and CDRs to see how changes moved size, mass, and power.) Tj
+T*
+(- Analyzed attitude-control and propulsion subsystems for performance against cost, then) Tj
+T*
+(  presented the study and wrote up the documentation.) Tj
+T*
+() Tj
+T*
+(Avionics & Controls Lead  -  Ramblin' Rocket Club, GNC project) Tj
+T*
+ET
+endstream
+endobj
+3 0 obj
+<< /Length 3384 >>
+stream
+BT
+/F1 10 Tf
+13 TL
+1 0 0 1 54 738 Tm
+(Georgia Tech  |  August 2023 - May 2025) Tj
+T*
+(- Led a subteam of 25+ students on avionics, software, and controllers for rockets steered) Tj
+T*
+(  by jet vanes and by gimbaling the motor.) Tj
+T*
+(- Linearized a nonlinear rocket model into trim points and a state-space model along the) Tj
+T*
+(  flight.) Tj
+T*
+(- Led GNCSIM, an object-oriented MATLAB 6-DOF simulation with LQR about a reference) Tj
+T*
+(  trajectory, plus Monte Carlo under parameter uncertainty.) Tj
+T*
+(- Wrote position, velocity, and attitude estimation in C on an STM32.) Tj
+T*
+(- Built the static-fire avionics: remote command, motor ignition, and servo timing.) Tj
+T*
+() Tj
+T*
+(Undergraduate Research Assistant, Sensor Development  -  Aerospace Systems Design Laboratory, Georgia Tech) Tj
+T*
+(Atlanta, GA  |  August 2023 - December 2023) Tj
+T*
+(- Worked on a small, modular, low-cost current sensor for building energy use.) Tj
+T*
+(- Designed the PCB in KiCad and the housing in SolidWorks. A full unit came to $102.) Tj
+T*
+(- The resume also notes current-sensor software on a Raspberry Pi. The longer build notes) Tj
+T*
+(  are on the project page.) Tj
+T*
+() Tj
+T*
+(Deputy Project Manager  -  NASA L'SPACE Mission Concept Academy) Tj
+T*
+(Virtual  |  January 2023 - May 2023) Tj
+T*
+(- Deputy project manager on an 11-person team writing a Preliminary Design Review for a) Tj
+T*
+(  rover mission to Mars' northern polar region.) Tj
+T*
+(- Ran communication between the science and engineering subteams on timeline, operations,) Tj
+T*
+(  prior missions, and budget.) Tj
+T*
+() Tj
+T*
+(Tennis Instructor  -  Mitchell Frank Tennis Academy) Tj
+T*
+(Annandale, VA  |  Summers 2021, 2022, and 2023) Tj
+T*
+(- Ran drills and games for kids ages 4-14.) Tj
+T*
+(- Promoted to manager of the primary location for summer 2023, overseeing multiple coaches) Tj
+T*
+(  and more than 50 students.) Tj
+T*
+(- Directed the summer 2023 fitness program for players working toward college recruitment.) Tj
+T*
+() Tj
+T*
+(Wilderness Outpost Attendant  -  Campus Recreation Center, Georgia Tech) Tj
+T*
+(Atlanta, GA  |  January 2023 - May 2023) Tj
+T*
+(- Prepped outdoor gear for trips, staffed the desk, and registered people for outings.) Tj
+T*
+() Tj
+T*
+(PUBLICATIONS) Tj
+T*
+(Development of an LQR Controller for a Jet Vanes Thrust-Vectored Rocket. Barry, Zheng,) Tj
+T*
+(Caillet, and Reynolds. AIAA Regional Student Conferences, 2025.) Tj
+T*
+(https://arc.aiaa.org/doi/10.2514/6.2025-99074) Tj
+T*
+(Integrated State Estimation Development for Actively Controlled Rockets. Zheng, Barry,) Tj
+T*
+(Ambati, and Vadia. AIAA Regional Student Conferences, 2025.) Tj
+T*
+(https://arc.aiaa.org/doi/10.2514/6.2025-99521) Tj
+T*
+() Tj
+T*
+(PROJECTS) Tj
+T*
+(Jet vanes rocket. State estimation and an LQR flight controller for a rocket steered by jet) Tj
+T*
+(vanes in the motor plume. I led the avionics, the C flight code, and GNCSIM.) Tj
+T*
+(https://github.com/pbarry670/GNCSIM) Tj
+T*
+(Autonomous racecar. MPPI for Georgia Tech's F1Tenth cars. The controller does not need the) Tj
+T*
+(track in advance. It builds a centerline from LiDAR and picks a lowest-cost rollout.) Tj
+T*
+(https://github.com/pbarry670/f1tenth-mppi) Tj
+T*
+(Ballistic missile tracking. Infrared tracking of a ballistic missile from a satellite) Tj
+T*
+(constellation, with an extended Kalman filter that starts from one line of sight or from a) Tj
+T*
+ET
+endstream
+endobj
+4 0 obj
+<< /Length 1213 >>
+stream
+BT
+/F1 10 Tf
+13 TL
+1 0 0 1 54 738 Tm
+(triangulation. https://github.com/pbarry670/BallisticMissileTracking) Tj
+T*
+(Planetary supply drop. A C++ simulation of dropping a payload from orbit onto a chosen point) Tj
+T*
+(on Earth: orbit control, ballistic entry, a parachute, and a fuel-optimal landing.) Tj
+T*
+(https://github.com/pbarry670/Planetary-Supply-Drop) Tj
+T*
+(Drone trajectory optimization. Differential dynamic programming for a quadrotor, with) Tj
+T*
+(barrier costs around obstacles, extended to receding-horizon MPC.) Tj
+T*
+(https://github.com/pbarry670/drone-ddp) Tj
+T*
+(Thrust-vectored rockets. Gru and Vector, two small rockets whose motors gimbal. My first) Tj
+T*
+(project as avionics and controls lead: a three-month build, with new members coming on while) Tj
+T*
+(we were still designing.) Tj
+T*
+(Low-cost current transformer. A small current sensor for building managers who want) Tj
+T*
+(appliance-level power. PCB in KiCad, housing in SolidWorks, about $102 a unit, with the) Tj
+T*
+(readings sent out over the network.) Tj
+T*
+(QuadGNC. In-house GNC, simulation, and flight software for a quadcopter. The public repo is) Tj
+T*
+(the collection itself. https://github.com/pbarry670/QuadGNC) Tj
+T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+6 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 612 792] /Contents 3 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+7 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+8 0 obj
+<< /Type /Pages /Count 3 /Kids [5 0 R 6 0 R 7 0 R] >>
+endobj
+9 0 obj
+<< /Type /Catalog /Pages 8 0 R >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000003447 00000 n 
+0000006883 00000 n 
+0000008148 00000 n 
+0000008274 00000 n 
+0000008400 00000 n 
+0000008526 00000 n 
+0000008595 00000 n 
+trailer << /Size 10 /Root 9 0 R >>
+startxref
+8644
+%%EOF

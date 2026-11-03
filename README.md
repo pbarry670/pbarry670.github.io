@@ -58,13 +58,13 @@ Each skill can list `projects` by slug. Those become links. Leave `projects` emp
 
 `reading.king.read` is the list of Stephen King books already finished. `reading.king.bibliography` is the denominator (novels and collections). To log a book, add `{ "title": "Carrie" }` to `read`. The title has to match a bibliography title or one of its `aliases`, or the build fails. Set `"favorite": true` on at most the book you want called out. `11/22/63` is the current favorite.
 
-Orson Scott Card is separate, under `reading.card.favorites`. Those books are not part of the King count. Right now the favorites are *Ender's Game* and *Children of the Mind*.
+The reading page is `/reading/`. Favorites live in `reading.favorites`. Right now those are *11/22/63*, *Ender's Game*, and *Hyperion*. *Children of the Mind* is mentioned there and is not part of the King count.
 
 The progress line is `read / bibliography`. The source note in the JSON says what the bibliography includes.
 
 ### Resume PDF
 
-`node scripts/build.mjs` also writes `dist/resume/Patrick-Barry-Resume.pdf` via `scripts/make_resume.py`.
+The résumé PDF served by the site is `assets/resume/Patrick_Barry_Resume.pdf`. Replace that file to use your own PDF. `python3 scripts/make_resume.py assets/resume/Patrick_Barry_Resume.pdf` regenerates it from `content/site.json`.
 
 ## What is not in the site
 
