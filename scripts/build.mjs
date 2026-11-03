@@ -110,7 +110,7 @@ function footer() {
 
 function actions(prefix) {
   return `<div class="actions">
-    <a class="button primary" href="${prefix}#work">Selected work</a>
+    <a class="button primary" href="${prefix}#work">Selected Work</a>
     <a class="button ghost" href="${prefix}resume/Patrick-Barry-Resume.pdf">Resume</a>
     <a class="button ghost" href="mailto:${esc(site.person.email)}">Email</a>
   </div>`;
@@ -133,12 +133,16 @@ function home() {
   const cards = site.projects
     .map((project, index) => {
       const klass = index === 0 ? "card feature" : "card";
+      const photo = project.card
+        ? `<img class="card-photo" src="${esc(project.card.src)}" alt="${esc(project.card.alt)}" width="${project.card.width || 800}" height="${project.card.height || 500}" loading="lazy" decoding="async">`
+        : "";
       return `<article class="${klass}">
+        ${photo}
         <p class="meta"><span>${esc(project.when)}</span><span>${esc(project.role)}</span></p>
         <h3><a href="projects/${esc(project.slug)}.html">${esc(project.title)}</a></h3>
         <p>${esc(project.summary)}</p>
         <p class="meta">${project.tags.map((tag) => `<span>${esc(tag)}</span>`).join("")}</p>
-        <p class="more"><a href="projects/${esc(project.slug)}.html">Open project</a>${
+        <p class="more"><a href="projects/${esc(project.slug)}.html">Open Project</a>${
           project.repo ? ` · <a href="${esc(project.repo)}">Repo</a>` : ""
         }</p>
       </article>`;
@@ -245,7 +249,7 @@ function home() {
     .map(
       (book) => `<li data-book data-read="${book.read}" data-kind="${esc(book.kind)}" data-title="${esc(book.title)}">
         <span>${book.favorite ? "★ " : ""}${esc(book.title)}</span>
-        <span class="mark">${book.read ? "read" : "—"} · ${esc(book.year)} · ${esc(book.kind)}</span>
+        <span class="mark">${book.read ? "Read" : "—"} · ${esc(book.year)} · ${esc(book.kind === "novel" ? "Novel" : "Collection")}</span>
       </li>`
     )
     .join("");
@@ -276,7 +280,7 @@ function home() {
         <div class="now"><strong>Now</strong><p>${esc(site.now)}</p></div>
       </div>
       <figure class="portrait">
-        <img src="photo/patrick-tennis.jpg" alt="${esc(site.person.photoAlt)}" width="295" height="295">
+        <img src="${esc(site.person.photo)}" alt="${esc(site.person.photoAlt)}" width="720" height="1200">
         <figcaption>${esc(site.person.photoCaption)}</figcaption>
       </figure>
     </div>
@@ -300,8 +304,8 @@ function home() {
     <div class="wrap">
       <div class="section-head">
         <p class="kicker">Lab</p>
-        <h2>A few loops, running</h2>
-        <p>Interactive sketches of the models in the repos. The plots further down each project are the actual figures.</p>
+        <h2>A Few Loops, Running</h2>
+        <p>Interactive sketches of the models in the repos. The plots further down each project are the actual figures, or a figure generated from those models and labeled as such.</p>
       </div>
       <div data-tabs>
         <div class="tablist" role="tablist" aria-label="Interactive sketches">${tabs}</div>
@@ -313,7 +317,7 @@ function home() {
     <div class="wrap">
       <div class="section-head">
         <p class="kicker">Code</p>
-        <h2>Short highlights</h2>
+        <h2>Short Highlights</h2>
       </div>
       <div class="work-grid">${snippets}</div>
     </div>
@@ -322,7 +326,7 @@ function home() {
     <div class="wrap">
       <div class="section-head">
         <p class="kicker">Experience</p>
-        <h2>Where the work happened</h2>
+        <h2>Where the Work Happened</h2>
       </div>
       <ol class="timeline">${jobs}</ol>
     </div>
@@ -338,7 +342,7 @@ function home() {
     <div class="wrap">
       <div class="section-head">
         <p class="kicker">Skills</p>
-        <h2>What I use, and where it shows up</h2>
+        <h2>What I Use, and Where It Shows Up</h2>
         <p>Levels are the ones I put on my portfolio. Links go to a project that actually uses the tool.</p>
       </div>
       <div class="skill-groups">${skills}</div>
@@ -347,8 +351,8 @@ function home() {
   <section id="beyond">
     <div class="wrap">
       <div class="section-head">
-        <p class="kicker">Beyond engineering</p>
-        <h2>Off the problem set</h2>
+        <p class="kicker">Beyond Engineering</p>
+        <h2>Off the Problem Set</h2>
       </div>
       <div class="interest-grid">
         ${interests}
@@ -366,13 +370,13 @@ function home() {
               <p class="note">${esc(site.reading.king.source)}</p>
             </div>
             <div>
-              <h3>Logged so far</h3>
+              <h3>Logged So Far</h3>
               <ul class="read-shelf">${shelf}</ul>
               <div class="tools">
-                <input data-book-search type="search" placeholder="Find a title" aria-label="Filter Stephen King titles">
+                <input data-book-search type="search" placeholder="Find a Title" aria-label="Filter Stephen King titles">
                 <button type="button" data-book-filter="all" aria-pressed="true">All</button>
                 <button type="button" data-book-filter="read" aria-pressed="false">Read</button>
-                <button type="button" data-book-filter="unread" aria-pressed="false">Not yet</button>
+                <button type="button" data-book-filter="unread" aria-pressed="false">Not Yet</button>
                 <button type="button" data-book-filter="novel" aria-pressed="false">Novels</button>
                 <button type="button" data-book-filter="collection" aria-pressed="false">Collections</button>
               </div>
@@ -385,7 +389,7 @@ function home() {
   </section>
   <section id="contact">
     <div class="wrap">
-      <div class="section-head"><p class="kicker">Contact</p><h2>Say hello</h2></div>
+      <div class="section-head"><p class="kicker">Contact</p><h2>Say Hello</h2></div>
       <div class="contact-row">
         <a class="button primary" href="mailto:${esc(site.person.email)}">${esc(site.person.email)}</a>
         <a class="button ghost" href="${esc(site.person.github)}">GitHub</a>
@@ -415,7 +419,7 @@ function projectPage(project) {
   const figures = (project.images || [])
     .map(
       (image) => `<figure>
-        <img src="../${esc(image.src)}" alt="${esc(image.alt)}">
+        <img src="../${esc(image.src)}" alt="${esc(image.alt)}" loading="lazy" decoding="async">
         <figcaption>${esc(image.caption)}</figcaption>
       </figure>`
     )

@@ -23,6 +23,8 @@ Then open `http://localhost:8080`.
 
 All copy, projects, jobs, skills, and the reading tracker live in `content/site.json`. Change the file, rebuild, and commit the JSON. You do not need to touch the HTML.
 
+Photos from the old Google Site are the WebP files in `assets/img/site/`. Two plots in `assets/img/generated/` are redrawn from the public models by `scripts/generate_figures.py` (the MPPI bicycle rollout and the MEO constellation). They are not frames from the MATLAB runs.
+
 ### Add a project
 
 Add an object to the `projects` array:

@@ -104,9 +104,8 @@ a:hover { color: white; }
 }
 .kicker {
   font-family: var(--mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
   color: var(--cyan);
   margin: 0 0 12px;
 }
@@ -146,7 +145,7 @@ h3 { font-size: 1.35rem; margin: 0 0 8px; }
   box-shadow: var(--shadow);
   background: var(--bg-2);
 }
-.portrait img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.portrait img { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center 18%; }
 .portrait figcaption {
   padding: 10px 14px 12px;
   color: var(--faint);
@@ -161,7 +160,7 @@ h3 { font-size: 1.35rem; margin: 0 0 8px; }
   background: rgba(227, 164, 92, 0.06);
   border-radius: 0 14px 14px 0;
 }
-.now strong { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; color: var(--amber); }
+.now strong { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.04em; color: var(--amber); }
 
 section { padding: 64px 0; }
 .section-head { max-width: 40rem; margin-bottom: 28px; }
@@ -183,6 +182,14 @@ section { padding: 64px 0; }
   min-height: 100%;
 }
 .card.feature { grid-row: span 2; }
+.card-photo {
+  width: 100%;
+  height: 168px;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #0c1016;
+}
+.card.feature .card-photo { height: 240px; }
 .card h3 a { color: var(--text); text-decoration: none; }
 .card h3 a:hover { color: var(--amber-2); }
 .card p { margin: 0; color: var(--muted); }

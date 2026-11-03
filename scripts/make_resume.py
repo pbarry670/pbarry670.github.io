@@ -45,7 +45,7 @@ for job in site["experience"]:
     lines.append(f"{job['where']}  |  {job['when']}")
     for bullet in job["bullets"]:
         wrapped = wrap(bullet, 88)
-        lines.append("• " + wrapped[0])
+        lines.append("- " + wrapped[0])
         for extra in wrapped[1:]:
             lines.append("  " + extra)
     lines.append("")
