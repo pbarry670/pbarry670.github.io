@@ -39,6 +39,13 @@ document.querySelectorAll("[data-tabs]").forEach((root) => {
   });
 });
 
+if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  document.querySelectorAll("video[autoplay]").forEach((video) => {
+    video.removeAttribute("autoplay");
+    video.pause();
+  });
+}
+
 const bookSearch = document.querySelector("[data-book-search]");
 const bookFilter = document.querySelectorAll("[data-book-filter]");
 const books = [...document.querySelectorAll("[data-book]")];

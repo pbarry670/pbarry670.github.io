@@ -163,6 +163,125 @@ def constellation():
     save(fig, "constellation")
 
 
+def supply_descent():
+    """Ballistic entry from edl.cpp / main.cpp, then chute cross-range from chuteDynamics."""
+    R = 6_378_000.0
+    MU = 3.986e14
+    Hscale = 8420.0
+    rho0 = 1.225
+    g0 = 9.807
+    dt = 0.05
+    orb = R + 500_000.0
+    V = math_sqrt = (MU / orb) ** 0.5
+    gamma = 5.0 * np.pi / 180.0
+    h = 500_000.0
+    beta = 2530.0 / (1.1 * 2.5)
+    chute_h = 5000.0
+    powered_h = 1000.0
+
+    def rho(alt):
+        return rho0 ** (-alt / Hscale)
+
+    def dyn(x):
+        Vv, g, hh = x
+        rh = rho(hh)
+        grav = g0 * (R / (R + hh)) ** 2
+        Vdot = -rh * Vv * Vv / (2 * beta) + grav * np.sin(g)
+        gdot = -(Vv * Vv * np.cos(g)) / (Vv * (R + hh)) + grav * np.cos(g) / Vv
+        hdot = -Vv * np.sin(g)
+        return np.array([Vdot, gdot, hdot])
+
+    def rk4(x):
+        k1 = dyn(x)
+        k2 = dyn(x + k1 * dt / 2)
+        k3 = dyn(x + k2 * dt / 2)
+        k4 = dyn(x + k3 * dt)
+        return x + dt * (k1 + 2 * k2 + 2 * k3 + k4) / 6
+
+    x = np.array([V, gamma, h])
+    rows = []
+    down = 0.0
+    t = 0.0
+    guard = 0
+    while x[2] >= chute_h and guard < 400_000:
+        if guard % 40 == 0:
+            rows.append((t, down / 1000.0, x[0], np.degrees(x[1]), x[2] / 1000.0))
+        down += x[0] * np.cos(x[1]) * dt
+        x = rk4(x)
+        t += dt
+        guard += 1
+    rows.append((t, down / 1000.0, x[0], np.degrees(x[1]), x[2] / 1000.0))
+    ball = np.array(rows)
+
+    # Chute handoff matches main.cpp: heatshield off, crossrange starts at 0.
+    # Each step draws ay, az from the normals in chuteDynamics (mean, std).
+    m = 2530.0 - 500.0
+    A = np.pi * (7.5 / 2) ** 2
+    CD = 0.8
+    rng = np.random.default_rng(4)
+    ends = []
+    paths = []
+    for i in range(18):
+        vx = float(x[0])
+        alt = float(x[2])
+        vy = 0.0
+        vz = 0.0
+        y = 0.0
+        z = 0.0
+        path = [(y, z, alt)]
+        steps = 0
+        while alt >= powered_h and steps < 80_000 and vx > 1:
+            rh = rho(alt)
+            Fd = 0.5 * rh * vx * vx * CD * A
+            ay = rng.normal(0.04, 1.0)
+            az = rng.normal(-0.05, 1.0)
+            vx = vx + dt * (-Fd / m + g0)
+            if vx < 1:
+                vx = 1
+            alt = alt - vx * dt
+            vy += ay * dt
+            vz += az * dt
+            y += vy * dt
+            z += vz * dt
+            if steps % 20 == 0:
+                path.append((y, z, alt))
+            steps += 1
+        path.append((y, z, alt))
+        paths.append(np.array(path))
+        ends.append((y, z))
+    ends = np.array(ends)
+
+    fig, ax = plt.subplots(figsize=(8.2, 5.2), facecolor=BG)
+    ax.set_facecolor(BG)
+    ax.plot(ball[:, 1], ball[:, 4], color=HOT, lw=1.8)
+    ax.axhline(5, color=CYAN, lw=0.8, ls=(0, (2, 3)))
+    ax.axhline(1, color=AMBER, lw=0.8, ls=(0, (2, 3)))
+    ax.tick_params(colors=MUTED, labelsize=9)
+    for spine in ax.spines.values():
+        spine.set_color("#2a3340")
+    ax.set_xlabel("Downrange (km)", color=CREAM, fontsize=11)
+    ax.set_ylabel("Altitude (km)", color=CREAM, fontsize=11)
+    ax.set_title("Ballistic descent to chute deploy", color=CREAM, fontsize=13, loc="left", pad=10)
+    save(fig, "supply-ballistic")
+
+    fig, ax = plt.subplots(figsize=(7.2, 6.2), facecolor=BG)
+    ax.set_facecolor(BG)
+    for path in paths:
+        ax.plot(path[:, 0] / 1000.0, path[:, 1] / 1000.0, color=CYAN, lw=0.8, alpha=0.55)
+        ax.scatter(path[-1, 0] / 1000.0, path[-1, 1] / 1000.0, s=16, color=AMBER, zorder=3)
+    ax.scatter([0], [0], s=36, color=GREEN, zorder=4)
+    ax.set_aspect("equal")
+    ax.tick_params(colors=MUTED, labelsize=9)
+    for spine in ax.spines.values():
+        spine.set_color("#2a3340")
+    ax.set_xlabel("Crossrange y (km)", color=CREAM, fontsize=11)
+    ax.set_ylabel("Crossrange z (km)", color=CREAM, fontsize=11)
+    ax.set_title("Chute wind samples at powered-descent handoff", color=CREAM, fontsize=13, loc="left", pad=10)
+    save(fig, "supply-dispersion")
+    print("ballistic end", ball[-1], "dispersion n", len(ends))
+
+
 if __name__ == "__main__":
     mppi()
     constellation()
+    supply_descent()

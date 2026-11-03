@@ -50,21 +50,21 @@ To feature it in the lab, add an entry to `lab` with the same `id` as `viz` and 
 
 Each skill can list `projects` by slug. Those become links. Leave `projects` empty when there is no project to point at.
 
-### Experience, education, now
+### Experience, education, about
 
-`experience`, `education`, `now`, and `about` are the timeline and the intro. The resume page and the PDF are generated from the same fields. The phone number and the street address are intentionally not in this file.
+`experience`, `education`, and `about` are the timeline and the intro. The résumé page and the PDF come from `content/resume.json`, not these fields. The phone number and the street address are intentionally not in either file.
 
 ### Reading tracker
 
 `reading.king.read` is the list of Stephen King books already finished. `reading.king.bibliography` is the denominator (novels and collections). To log a book, add `{ "title": "Carrie" }` to `read`. The title has to match a bibliography title or one of its `aliases`, or the build fails. Set `"favorite": true` on at most the book you want called out. `11/22/63` is the current favorite.
 
-Orson Scott Card is separate, under `reading.card.favorites`. Those books are not part of the King count. Right now the favorites are *Ender's Game* and *Children of the Mind*.
+The reading page is `/reading/`. Favorites live in `reading.favorites`. Right now those are *11/22/63*, *Ender's Game*, and *Hyperion*. *Children of the Mind* is mentioned there and is not part of the King count.
 
 The progress line is `read / bibliography`. The source note in the JSON says what the bibliography includes.
 
 ### Resume PDF
 
-`node scripts/build.mjs` also writes `dist/resume/Patrick-Barry-Resume.pdf` via `scripts/make_resume.py`.
+The résumé PDF served by the site is `assets/resume/Patrick_Barry_Resume.pdf`. Wording lives in `content/resume.json`. `python3 scripts/render_resume.py` reprints that file with headless Chromium. The page at `/resume/` is built from the same JSON.
 
 ## What is not in the site
 

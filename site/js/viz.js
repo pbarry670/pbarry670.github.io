@@ -580,64 +580,94 @@ function drawDrone(ctx, w, h, plan, state) {
   ctx.restore();
 }
 
+const supplyTraj = simulateSupply();
+
+function simulateSupply() {
+  // Same ballistic model as Planetary-Supply-Drop edl.cpp / main.cpp.
+  const R = 6378000;
+  const MU = 3.986e14;
+  const Hs = 8420;
+  const rho0 = 1.225;
+  const g0 = 9.807;
+  const dt = 0.25;
+  const orb = R + 500000;
+  const beta = 2530 / (1.1 * 2.5);
+  const chuteH = 5000;
+  let V = Math.sqrt(MU / orb);
+  let gamma = (5 * Math.PI) / 180;
+  let h = 500000;
+  let down = 0;
+  const pts = [];
+  const rho = (alt) => rho0 ** (-alt / Hs);
+  const deriv = (Vv, g, hh) => {
+    const rh = rho(hh);
+    const grav = g0 * (R / (R + hh)) ** 2;
+    return [
+      (-rh * Vv * Vv) / (2 * beta) + grav * Math.sin(g),
+      (-(Vv * Vv) * Math.cos(g)) / (Vv * (R + hh)) + (grav * Math.cos(g)) / Vv,
+      -Vv * Math.sin(g),
+    ];
+  };
+  for (let n = 0; n < 20000 && h >= chuteH; n++) {
+    if (n % 8 === 0) pts.push({ down: down / 1000, h: h / 1000, V });
+    const k1 = deriv(V, gamma, h);
+    const k2 = deriv(V + k1[0] * dt / 2, gamma + k1[1] * dt / 2, h + k1[2] * dt / 2);
+    const k3 = deriv(V + k2[0] * dt / 2, gamma + k2[1] * dt / 2, h + k2[2] * dt / 2);
+    const k4 = deriv(V + k3[0] * dt, gamma + k3[1] * dt, h + k3[2] * dt);
+    down += V * Math.cos(gamma) * dt;
+    V += (dt * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0])) / 6;
+    gamma += (dt * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1])) / 6;
+    h += (dt * (k1[2] + 2 * k2[2] + 2 * k3[2] + k4[2])) / 6;
+  }
+  pts.push({ down: down / 1000, h: h / 1000, V });
+  return pts;
+}
+
 function supply(el, canvas) {
   const say = readouts(el);
-  let t = 0;
+  let i = 0;
   return {
     on: true,
     frame() {
-      if (!reduced) t += 0.008;
-      const phase = t % 1;
+      if (!reduced) i = (i + 1) % supplyTraj.length;
       const box = fit(canvas);
       if (!box) return;
       const { ctx, w, h } = box;
       ctx.clearRect(0, 0, w, h);
       drawGrid(ctx, w, h);
-      const cx = w * 0.48;
-      const cy = h * 0.58;
-      const R = Math.min(w, h) * 0.28;
-      ctx.beginPath();
-      ctx.arc(cx, cy, R, 0, Math.PI * 2);
-      ctx.fillStyle = "#162028";
-      ctx.fill();
-      ctx.strokeStyle = "rgba(143,208,198,0.5)";
-      ctx.stroke();
-
-      const orbit = R * 1.55;
-      ctx.beginPath();
-      ctx.ellipse(cx, cy, orbit, orbit * 0.42, -0.4, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(227,164,92,0.7)";
-      ctx.stroke();
-
-      const a = phase * Math.PI * 2;
-      const sx = cx + orbit * Math.cos(a);
-      const sy = cy + orbit * 0.42 * Math.sin(a) * Math.cos(-0.4) - orbit * Math.sin(a) * 0;
-      // Place the satellite on the tilted ellipse approximately.
-      const ex = cx + Math.cos(a) * orbit;
-      const ey = cy + Math.sin(a) * orbit * 0.42;
-      ctx.fillStyle = "#e3a45c";
-      ctx.beginPath();
-      ctx.arc(ex, ey, 4, 0, Math.PI * 2);
-      ctx.fill();
-
-      if (phase > 0.42) {
-        const u = Math.min(1, (phase - 0.42) / 0.35);
-        const dx = ex + (cx + R * 0.15 - ex) * u;
-        const dy = ey + (cy - R * 0.2 - ey) * u * u;
-        ctx.strokeStyle = "#e36d4f";
-        ctx.beginPath();
-        ctx.moveTo(ex, ey);
-        ctx.lineTo(dx, dy);
-        ctx.stroke();
-        ctx.fillStyle = phase > 0.62 ? "#8fd0c6" : "#e36d4f";
-        ctx.beginPath();
-        ctx.arc(dx, dy, phase > 0.62 ? 5 : 3, 0, Math.PI * 2);
-        ctx.fill();
+      const pad = 28;
+      let maxX = 0;
+      let maxY = 0;
+      for (const p of supplyTraj) {
+        maxX = Math.max(maxX, p.down);
+        maxY = Math.max(maxY, p.h);
       }
-      const label = phase < 0.42 ? "orbit" : phase < 0.62 ? "ballistic" : phase < 0.8 ? "chute" : "powered descent";
-      say(label);
-      void sx;
-      void sy;
+      const X = (v) => pad + (v / maxX) * (w - pad * 2);
+      const Y = (v) => h - pad - (v / maxY) * (h - pad * 2);
+      ctx.beginPath();
+      supplyTraj.forEach((p, n) => (n ? ctx.lineTo(X(p.down), Y(p.h)) : ctx.moveTo(X(p.down), Y(p.h))));
+      ctx.strokeStyle = "#e36d4f";
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+      ctx.setLineDash([3, 5]);
+      ctx.strokeStyle = "rgba(143,208,198,0.7)";
+      ctx.beginPath();
+      ctx.moveTo(pad, Y(5));
+      ctx.lineTo(w - pad, Y(5));
+      ctx.stroke();
+      ctx.strokeStyle = "rgba(227,164,92,0.8)";
+      ctx.beginPath();
+      ctx.moveTo(pad, Y(1));
+      ctx.lineTo(w - pad, Y(1));
+      ctx.stroke();
+      ctx.setLineDash([]);
+      const p = supplyTraj[Math.min(i, supplyTraj.length - 1)];
+      ctx.fillStyle = "#ebe6dc";
+      ctx.beginPath();
+      ctx.arc(X(p.down), Y(p.h), 4, 0, Math.PI * 2);
+      ctx.fill();
+      const phase = p.h > 5 ? "ballistic" : "chute deploy";
+      say(`${phase}   ${p.h.toFixed(1)} km   ${p.V.toFixed(0)} m/s`);
     },
   };
 }
