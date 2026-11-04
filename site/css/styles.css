@@ -120,7 +120,7 @@ a:hover { color: white; }
   text-decoration: none;
   font-size: 0.95rem;
 }
-.nav a:hover { color: var(--text); }
+.nav a:hover, .nav a[aria-current="page"] { color: var(--text); }
 
 .hero { padding: 56px 0 20px; }
 .hero-grid {
@@ -142,7 +142,7 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); margin: 0 0 12px; }
 h3 { font-size: 1.35rem; margin: 0 0 8px; }
 .lede { font-size: 1.25rem; color: var(--muted); max-width: 42rem; margin: 0 0 18px; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; padding: 0; list-style: none; }
-.chips a, .chip {
+.chips a, .chips span, .chip {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 4px 10px;
@@ -293,6 +293,7 @@ section { padding: 64px 0; }
   flex-direction: column;
 }
 .viz canvas { width: 100%; height: 360px; display: block; }
+.viz.detail canvas { height: 560px; }
 .viz footer, .readout {
   display: flex;
   justify-content: space-between;
@@ -303,6 +304,17 @@ section { padding: 64px 0; }
   color: var(--faint);
   font-family: var(--mono);
   font-size: 0.75rem;
+}
+.viz-controls { display: inline-flex; align-items: center; gap: 10px; }
+.viz button[data-replay] {
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
 }
 .viz input[type="range"] { width: 120px; accent-color: var(--amber); }
 .note { color: var(--muted); font-size: 0.95rem; }
@@ -321,12 +333,19 @@ section { padding: 64px 0; }
 .timeline ul { margin: 0; padding-left: 18px; color: var(--muted); }
 
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.edu-list, .pub-list { display: grid; gap: 16px; }
 .edu-card, .pub {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 18px;
   background: var(--bg-2);
 }
+.edu-card { display: grid; gap: 14px; }
+.edu-card.has-photo { grid-template-columns: minmax(140px, 220px) 1fr; align-items: center; }
+.edu-card .shot { margin: 0; }
+.edu-card h3 { margin-top: 4px; }
+.coursework { color: var(--muted); margin: 16px 0 0; max-width: 46rem; }
+.pub p { color: var(--muted); margin: 6px 0 0; }
 .skill-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .skill-group { border-top: 1px solid var(--line); padding-top: 12px; }
 .skill {
@@ -461,10 +480,11 @@ code { font-family: var(--mono); font-size: 0.9em; }
     grid-template-columns: 1fr;
   }
   .interest.wide { grid-column: auto; }
-  .fav-grid, .photo-strip, .resume-row { grid-template-columns: 1fr; }
+  .fav-grid, .photo-strip, .resume-row, .edu-card.has-photo { grid-template-columns: 1fr; }
   .pdf-frame { display: none; }
   .pdf-fallback { display: block; }
   .viz canvas { height: 280px; }
+  .viz.detail canvas { height: 460px; }
   h1 { font-size: 3.1rem; }
 }
 

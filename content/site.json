@@ -27,32 +27,31 @@
     "ROS"
   ],
   "resumeNote": "U.S. citizen. Active Top Secret clearance.",
-  "coursework": "Relevant coursework: Optimal Guidance & Control, Control System Design/Analysis, Robotics & Autonomy, Orbital Mechanics, Optimization-Based Learning & Control, Optical Navigation.",
+  "coursework": "Relevant Coursework: Optimal Guidance & Control, Control System Design/Analysis, Robotics & Autonomy, Orbital Mechanics, Optimization-Based Learning & Control, Optical Navigation.",
   "education": [
     {
-      "credential": "M.S. Aerospace Engineering",
-      "school": "Georgia Institute of Technology",
-      "when": "May 2026",
-      "detail": "Completed, through the BS/MS honors program. Bachelor's and master's both at Georgia Tech."
+      "credential": "Master of Science, Aerospace Engineering",
+      "school": "Georgia Institute of Technology, Atlanta, GA",
+      "when": "May 2026"
     },
     {
-      "credential": "B.S. Aerospace Engineering",
-      "school": "Georgia Institute of Technology",
+      "credential": "Bachelor of Science, Aerospace Engineering",
+      "school": "Georgia Institute of Technology, Atlanta, GA",
       "when": "May 2025",
-      "detail": "Finished in three years. Final GPA 4.0."
+      "detail": "Final GPA: 4.0."
     }
   ],
   "publications": [
     {
-      "title": "Development of an LQR Controller for a Jet Vanes Thrust-Vectored Rocket",
-      "authors": "Barry, Zheng, Caillet, and Reynolds",
-      "venue": "AIAA Regional Student Conferences, 2025",
+      "title": "Development of an LQR Controller for a Jet Vanes Thrust-Vectored Rocket.",
+      "authors": "Barry, Zheng, Caillet, and Reynolds.",
+      "venue": "AIAA ARC, 2025.",
       "href": "https://arc.aiaa.org/doi/10.2514/6.2025-99074"
     },
     {
-      "title": "Integrated State Estimation Development for Actively Controlled Rockets",
-      "authors": "Zheng, Barry, Ambati, and Vadia",
-      "venue": "AIAA Regional Student Conferences, 2025",
+      "title": "Integrated State Estimation Development for Actively Controlled Rockets.",
+      "authors": "Zheng, Barry, Ambati, and Vadia.",
+      "venue": "AIAA ARC, 2025.",
       "href": "https://arc.aiaa.org/doi/10.2514/6.2025-99521"
     }
   ],
@@ -193,13 +192,13 @@
     },
     {
       "src": "photo/slickrock.webp",
-      "alt": "Patrick Barry taking a selfie on desert slickrock.",
-      "caption": "Desert slickrock"
+      "alt": "Patrick Barry at Arches National Park.",
+      "caption": "Arches National Park"
     },
     {
       "src": "photo/chipotle.webp",
-      "alt": "Patrick Barry standing in front of a Chipotle.",
-      "caption": "Chipotle"
+      "alt": "Patrick Barry at the original Chipotle.",
+      "caption": "The original Chipotle"
     }
   ],
   "reading": {
@@ -213,13 +212,15 @@
     },
     "king": {
       "favorite": "11/22/63",
-      "source": "Finished books against the novels and collections on the English Wikipedia bibliography, through Other Worlds Than These (2026). Later or unscheduled books are not in the count, and neither are nonfiction, picture books, graphic novels, or screenplays. The uncut Stand is its own row and is not marked read.",
       "read": [
         {
           "title": "The Shining"
         },
         {
           "title": "The Stand"
+        },
+        {
+          "title": "The Stand: The Complete and Uncut Edition"
         },
         {
           "title": "The Long Walk"
@@ -949,8 +950,8 @@
       "id": "supply",
       "title": "Supply Drop",
       "project": "planetary-supply-drop",
-      "canvasLabel": "Ballistic entry trajectory from orbit down to parachute deployment.",
-      "blurb": "This integrates the ballistic equations in edl.cpp with the numbers from main.cpp: 500 km circular orbit, 5 degree flight-path angle, chute deploy at 5 km. The cyan line is chute deploy. The amber line is the 1 km powered-descent handoff. Density is the expression in that file, rho = 1.225 to the power of minus altitude over 8420."
+      "canvasLabel": "Ballistic entry from orbit, then a close view of parachute deployment and crossrange.",
+      "blurb": "Same ballistic model as edl.cpp, with the numbers from main.cpp: 500 km circular orbit, 5 degree flight-path angle, chute at 5 km. Altitude below 12 km is stretched so that opening is visible. The right panel is the chute down to the 1 km handoff, with the crossrange samples from chuteDynamics. Density is rho = 1.225 to the power of minus altitude over 8420."
     },
     {
       "id": "mppi",
@@ -964,8 +965,8 @@
       "id": "globe",
       "title": "Missile tracking",
       "project": "missile-tracking",
-      "canvasLabel": "Globe with three satellite planes and a ballistic arc.",
-      "blurb": "Three planes of four satellites, inclinations −60°, 0°, and +60°, which is the custom MEO layout written in runSim.m. Altitude is compressed so the Earth stays on the canvas. The arc is the sample launch and target in missileTrajSolver.m. Lines are line of sight that clears the Earth."
+      "canvasLabel": "Globe with three satellite planes, a ballistic arc, and the missile heading.",
+      "blurb": "Three planes of four satellites, inclinations −60°, 0°, and +60°, from the custom MEO layout in runSim.m. The arc is the sample launch and target in missileTrajSolver.m. The arrow is the velocity heading, and the trail fades behind it. Lines are line of sight that clears the Earth. Altitude is compressed so the Earth stays on the canvas."
     },
     {
       "id": "ddp",
