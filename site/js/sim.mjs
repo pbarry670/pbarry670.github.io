@@ -95,6 +95,7 @@ export function planDrone() {
 
   return {
     states: xs,
+    refs: refs.slice(0, xs.length),
     controls: U,
     obstacles: scene.obstacles,
     goal: scene.goal,

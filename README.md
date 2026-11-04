@@ -60,7 +60,7 @@ Each skill can list `projects` by slug. Those become links. Leave `projects` emp
 
 The reading page is `/reading/`. Favorites live in `reading.favorites`. Right now those are *11/22/63*, *Ender's Game*, and *Hyperion*. *Children of the Mind* is mentioned there and is not part of the King count.
 
-The progress line is `read / bibliography`. The source note in the JSON says what the bibliography includes.
+The progress line is `read / bibliography`. The uncut Stand is its own row in that list.
 
 ### Resume PDF
 

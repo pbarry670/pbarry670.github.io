@@ -54,7 +54,7 @@ function linkKing(data) {
 const king = linkKing(site);
 const projectBySlug = Object.fromEntries(site.projects.map((project) => [project.slug, project]));
 
-function page({ title, description, prefix, body, mainClass = "" }) {
+function page({ title, description, prefix, body, mainClass = "", current = "" }) {
   const depth = prefix;
   return `<!DOCTYPE html>
 <html lang="en">
@@ -72,7 +72,7 @@ function page({ title, description, prefix, body, mainClass = "" }) {
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  ${header(depth)}
+  ${header(depth, current)}
   <main id="main" class="${mainClass}">${body}</main>
   ${footer(depth)}
   <script src="${depth}js/ui.js"></script>
@@ -81,22 +81,23 @@ function page({ title, description, prefix, body, mainClass = "" }) {
 </html>`;
 }
 
-function header(prefix) {
+function header(prefix, current) {
   const links = [
-    ["Work", `${prefix}#work`],
-    ["Lab", `${prefix}#lab`],
-    ["Experience", `${prefix}#experience`],
-    ["Skills", `${prefix}#skills`],
-    ["Reading", `${prefix}reading/`],
-    ["Beyond", `${prefix}#beyond`],
-    ["Resume", `${prefix}resume/`],
+    ["Projects", `${prefix}projects/`, "projects"],
+    ["Reading", `${prefix}reading/`, "reading"],
+    ["Resume", `${prefix}resume/`, "resume"],
   ];
   return `<header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="${prefix}">${esc(site.person.shortName)}</a>
+      <a class="brand" href="${prefix || "./"}">${esc(site.person.shortName)}</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" class="nav" data-nav>
-        ${links.map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}
+        ${links
+          .map(
+            ([label, href, id]) =>
+              `<a href="${href}"${current === id ? ' aria-current="page"' : ""}>${label}</a>`
+          )
+          .join("")}
       </nav>
     </div>
   </header>`;
@@ -112,26 +113,26 @@ function footer() {
 
 function actions(prefix) {
   return `<div class="actions">
-    <a class="button primary" href="${prefix}#work">Selected Work</a>
+    <a class="button primary" href="${prefix}projects/">Projects</a>
     <a class="button ghost" href="${prefix}resume/">Resume</a>
     <a class="button ghost" href="mailto:${esc(site.person.email)}">Email</a>
   </div>`;
 }
 
-function vizBlock(id, label, speed) {
-  const control = speed
+function vizBlock(id, label, options = false) {
+  const opts = typeof options === "boolean" ? { speed: options } : options || {};
+  const control = opts.speed
     ? `<label>Target <input data-speed type="range" min="0.5" max="1.5" step="0.1" value="1" aria-label="Desired speed in meters per second"></label>`
     : "";
-  return `<div class="viz" data-viz="${esc(id)}">
-    <canvas role="img" aria-label="${esc(label)}" width="800" height="360"></canvas>
-    <footer><span data-readout></span>${control}</footer>
+  const height = opts.detail ? 560 : 360;
+  return `<div class="viz${opts.detail ? " detail" : ""}" data-viz="${esc(id)}"${opts.detail ? ' data-detail="1"' : ""}>
+    <canvas role="img" aria-label="${esc(label)}" width="960" height="${height}"></canvas>
+    <footer><span data-readout></span><span class="viz-controls">${control}<button type="button" data-replay>Replay</button></span></footer>
   </div>`;
 }
 
 function home() {
-  const chips = site.heroChips
-    .map((chip) => `<li><a href="#skills">${esc(chip)}</a></li>`)
-    .join("");
+  const chips = site.heroChips.map((chip) => `<li><span>${esc(chip)}</span></li>`).join("");
   const projectOrder = ["racecar", "planetary-supply-drop", "missile-tracking", "drone-ddp", "thrust-vector", "current-sensor", "jet-vanes", "quad-gnc"];
   const ordered = projectOrder.map((slug) => projectBySlug[slug]).filter(Boolean);
   const cards = ordered
@@ -165,7 +166,7 @@ function home() {
       const project = projectBySlug[item.project];
       return `<div role="tabpanel" id="panel-${esc(item.id)}" aria-labelledby="tab-${esc(item.id)}" ${index === 0 ? "" : "hidden"}>
         <div class="stage">
-          ${vizBlock(item.id, item.canvasLabel, item.speed)}
+          ${vizBlock(item.id, item.canvasLabel, { speed: item.speed })}
           <div class="note">
             <h3>${esc(item.title)}</h3>
             <p>${esc(item.blurb)}</p>
@@ -176,58 +177,37 @@ function home() {
     })
     .join("");
 
-  const jobs = site.experience
-    .map(
-      (job) => `<li>
-        <div class="when">${esc(job.when)}<br>${esc(job.where)}</div>
-        <div>
-          <h3>${esc(job.role)}</h3>
-          <p class="org">${esc(job.org)}</p>
-          <ul>${job.bullets.map((bullet) => `<li>${esc(bullet)}</li>`).join("")}</ul>
-        </div>
-      </li>`
-    )
-    .join("");
-
   const schools = site.education
-    .map(
-      (school) => `<article class="edu-card">
-        <h3>${esc(school.credential)}</h3>
-        <p class="org">${esc(school.school)}</p>
-        <p class="meta"><span>${esc(school.when)}</span></p>
-        <p>${esc(school.detail)}</p>
-      </article>`
-    )
+    .map((school) => {
+      const photo = school.photo
+        ? `<figure class="shot"><img src="${esc(school.photo.src)}" alt="${esc(school.photo.alt || "")}" loading="lazy" decoding="async">${
+            school.photo.caption ? `<figcaption>${esc(school.photo.caption)}</figcaption>` : ""
+          }</figure>`
+        : "";
+      return `<article class="edu-card${photo ? " has-photo" : ""}">
+        ${photo}
+        <div>
+          <p class="meta"><span>${esc(school.when)}</span></p>
+          <h3>${esc(school.credential)}</h3>
+          <p class="org">${esc(school.school)}</p>
+          ${school.detail ? `<p>${esc(school.detail)}</p>` : ""}
+          ${
+            school.coursework?.length
+              ? `<p class="coursework"><strong>Relevant Coursework:</strong> ${school.coursework.map((course) => esc(course)).join(", ")}</p>`
+              : ""
+          }
+        </div>
+      </article>`;
+    })
     .join("");
 
   const pubs = site.publications
     .map(
       (pub) => `<article class="pub">
         <h3><a href="${esc(pub.href)}">${esc(pub.title)}</a></h3>
-        <p>${esc(pub.authors)}. ${esc(pub.venue)}.</p>
+        <p>${esc(pub.authors)} ${esc(pub.venue)}</p>
       </article>`
     )
-    .join("");
-
-  const skills = site.skills
-    .map((group) => {
-      const items = group.items
-        .map((item) => {
-          const links = (item.projects || [])
-            .map((slug) => {
-              const project = projectBySlug[slug];
-              return project ? `<a href="projects/${esc(project.slug)}.html">${esc(project.shortTitle || project.title)}</a>` : "";
-            })
-            .filter(Boolean)
-            .join(" · ");
-          return `<div class="skill">
-            <b>${esc(item.name)}</b><span class="level">${esc(item.level)}</span>
-            <small>${esc(item.detail || "")}${links ? ` ${links}` : ""}</small>
-          </div>`;
-        })
-        .join("");
-      return `<div class="skill-group"><h3>${esc(group.group)}</h3>${items}</div>`;
-    })
     .join("");
 
   const interests = site.interests
@@ -253,17 +233,6 @@ function home() {
         <img src="${esc(photo.src)}" alt="${esc(photo.alt)}" loading="lazy" decoding="async">
         <figcaption>${esc(photo.caption)}</figcaption>
       </figure>`
-    )
-    .join("");
-
-  const snippets = site.code
-    .map(
-      (block) => `<article class="card">
-        <h3>${esc(block.title)}</h3>
-        <p class="meta"><span>${esc(block.language)}</span><a href="${esc(block.repo)}">${esc(block.file)}</a></p>
-        <p>${esc(block.caption)}</p>
-        <pre><code>${esc(block.code)}</code></pre>
-      </article>`
     )
     .join("");
 
@@ -297,12 +266,11 @@ function home() {
       <div class="work-grid">${cards}</div>
     </div>
   </section>
-  <section id="lab">
+  <section id="simulations">
     <div class="wrap">
       <div class="section-head">
-        <p class="kicker">Lab</p>
-        <h2>A Few Loops, Running</h2>
-        <p>Interactive sketches of the models in the repos. The plots further down each project are the actual figures, or a figure generated from those models and labeled as such.</p>
+        <h2>Simulations</h2>
+        <p>Models from the repos. The project pages have the longer versions.</p>
       </div>
       <div data-tabs>
         <div class="tablist" role="tablist" aria-label="Interactive sketches">${tabs}</div>
@@ -310,39 +278,16 @@ function home() {
       </div>
     </div>
   </section>
-  <section>
-    <div class="wrap">
-      <div class="section-head">
-        <p class="kicker">Code</p>
-        <h2>Short Highlights</h2>
-      </div>
-      <div class="work-grid">${snippets}</div>
-    </div>
-  </section>
-  <section id="experience">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="kicker">Experience</p>
-        <h2>Where the Work Happened</h2>
-      </div>
-      <ol class="timeline">${jobs}</ol>
-    </div>
-  </section>
   <section id="education">
     <div class="wrap">
-      <div class="section-head"><p class="kicker">Education</p><h2>Georgia Tech</h2></div>
-      <div class="split">${schools}</div>
-      <div class="split" style="margin-top:16px">${pubs}</div>
+      <div class="section-head"><h2>Education</h2></div>
+      <div class="edu-list">${schools}</div>
     </div>
   </section>
-  <section id="skills">
+  <section id="publications">
     <div class="wrap">
-      <div class="section-head">
-        <p class="kicker">Skills</p>
-        <h2>What I Use, and Where It Shows Up</h2>
-        <p>Levels are the ones I put on my portfolio. Links go to a project that actually uses the tool.</p>
-      </div>
-      <div class="skill-groups">${skills}</div>
+      <div class="section-head"><h2>Publications</h2></div>
+      <div class="pub-list">${pubs}</div>
     </div>
   </section>
   <section id="beyond">
@@ -379,6 +324,7 @@ function home() {
     description: site.person.lede,
     prefix: "",
     body,
+    current: "",
   });
 }
 
@@ -393,7 +339,7 @@ function projectPage(project) {
     .join("");
   const figures = (project.images || [])
     .map(
-      (image) => `<figure>
+      (image) => `<figure${image.wide ? ' class="wide"' : ""}>
         <img src="../${esc(image.src)}" alt="${esc(image.alt)}" loading="lazy" decoding="async">
         <figcaption>${esc(image.caption)}</figcaption>
       </figure>`
@@ -407,25 +353,16 @@ function projectPage(project) {
       </figure>`
     )
     .join("");
-  const code = (project.code || [])
-    .map((block) => site.code.find((item) => item.id === block))
-    .filter(Boolean)
-    .map(
-      (block) => `<section>
-        <h2>${esc(block.title)}</h2>
-        <p>${esc(block.caption)} <a href="${esc(block.repo)}">${esc(block.file)}</a></p>
-        <pre><code>${esc(block.code)}</code></pre>
-      </section>`
-    )
-    .join("");
   const links = [
     project.repo ? `<a class="button primary" href="${esc(project.repo)}">Repository</a>` : "",
     ...(project.links || []).map((link) => `<a class="button ghost" href="${esc(link.href)}">${esc(link.label)}</a>`),
   ].join("");
-  const viz = project.viz ? vizBlock(project.viz, project.vizLabel || project.title, project.viz === "mppi") : "";
+  const viz = project.viz
+    ? vizBlock(project.viz, project.vizLabel || project.title, { speed: project.viz === "mppi", detail: true })
+    : "";
   const credits = project.credits?.length ? `<p>With ${project.credits.map((name) => esc(name)).join(", ")}.</p>` : "";
   const body = `<article class="wrap project-hero prose">
-    <p class="kicker"><a href="../#work">Work</a> · ${esc(project.when)}</p>
+    <p class="kicker"><a href="../projects/">Projects</a> · ${esc(project.when)}</p>
     <h1>${esc(project.title)}</h1>
     <p class="lede">${esc(project.summary)}</p>
     <p class="meta"><span>${esc(project.role)}</span>${project.tags.map((tag) => `<span>${esc(tag)}</span>`).join("")}</p>
@@ -435,13 +372,46 @@ function projectPage(project) {
     ${sections}
     ${figures ? `<div class="gallery">${figures}</div>` : ""}
     ${videos ? `<div class="video-grid">${videos}</div>` : ""}
-    ${code}
   </article>`;
   return page({
     title: `${project.title} · ${site.person.name}`,
     description: project.summary,
     prefix: "../",
     body,
+    current: "projects",
+  });
+}
+
+function projectsPage() {
+  const cards = site.projects
+    .map((project) => {
+      const photo = project.card
+        ? `<div class="shot"><img class="card-photo" src="../${esc(project.card.src)}" alt="${esc(project.card.alt)}" width="${project.card.width || 800}" height="${project.card.height || 500}" loading="lazy" decoding="async"></div>`
+        : "";
+      return `<article class="card">
+        ${photo}
+        <p class="meta"><span>${esc(project.when)}</span><span>${esc(project.role)}</span></p>
+        <h3><a href="${esc(project.slug)}.html">${esc(project.title)}</a></h3>
+        <p>${esc(project.summary)}</p>
+        <p class="meta">${project.tags.map((tag) => `<span>${esc(tag)}</span>`).join("")}</p>
+        <p class="more"><a href="${esc(project.slug)}.html">Open Project</a>${
+          project.repo ? ` · <a href="${esc(project.repo)}">Repo</a>` : ""
+        }</p>
+      </article>`;
+    })
+    .join("");
+  const body = `<article class="wrap">
+    <p class="kicker"><a href="../">Home</a></p>
+    <h1>Projects</h1>
+    <p class="lede">${esc(site.workIntro)}</p>
+    <div class="work-grid">${cards}</div>
+  </article>`;
+  return page({
+    title: `Projects · ${site.person.name}`,
+    description: site.workIntro,
+    prefix: "../",
+    body,
+    current: "projects",
   });
 }
 
@@ -486,7 +456,6 @@ function readingPage() {
         <div class="bar" role="img" aria-label="${king.readCount} of ${king.total} Stephen King novels and collections"><i style="width:${pct}%"></i></div>
         <p class="meta"><span>${king.novelsRead} of ${king.novels} novels</span><span>${king.collectionsRead} of ${king.collections} collections</span></p>
         <p class="fav"><strong>Favorite:</strong> ${esc(site.reading.king.favorite)}</p>
-        <p class="note">${esc(site.reading.king.source)}</p>
       </div>
       <div>
         <h3>Logged So Far</h3>
@@ -508,6 +477,7 @@ function readingPage() {
     description: site.reading.teaser,
     prefix: "../",
     body,
+    current: "reading",
   });
 }
 
@@ -526,8 +496,12 @@ function resumeJobs(entries) {
 function resumePage() {
   const doc = resumeDoc;
   const edu = `<p class="org">${esc(doc.education.school)}</p>
-    <ul>${doc.education.degrees.map((line) => `<li>${esc(line)}</li>`).join("")}</ul>
-    <p>${esc(doc.education.coursework)}</p>`;
+    ${doc.education.degrees
+      .map(
+        (degree) => `<ul><li>${esc(degree.line)}</li></ul>
+        <p><strong>Relevant Coursework:</strong> ${esc(degree.coursework)}</p>`
+      )
+      .join("")}`;
   const skills = doc.skills
     .map((row) => `<p><strong>${esc(row.label)}:</strong> ${esc(row.text)}</p>`)
     .join("");
@@ -572,6 +546,7 @@ function resumePage() {
     description: `Resume for ${site.person.name}`,
     prefix: "../",
     body,
+    current: "resume",
   });
 }
 
@@ -581,6 +556,7 @@ await mkdir(path.join(dist, "resume"), { recursive: true });
 await mkdir(path.join(dist, "reading"), { recursive: true });
 await mkdir(path.join(dist, "assets", "resume"), { recursive: true });
 await writeFile(path.join(dist, "index.html"), home());
+await writeFile(path.join(dist, "projects", "index.html"), projectsPage());
 for (const project of site.projects) {
   await writeFile(path.join(dist, "projects", `${project.slug}.html`), projectPage(project));
 }
