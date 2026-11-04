@@ -32,13 +32,23 @@
     {
       "credential": "Master of Science, Aerospace Engineering",
       "school": "Georgia Institute of Technology, Atlanta, GA",
-      "when": "May 2026"
+      "when": "May 2026",
+      "photo": {
+        "src": "photo/ms-graduation.webp",
+        "alt": "Patrick Barry in graduation robes on Georgia Tech's campus, pointing up.",
+        "caption": "Master's graduation"
+      }
     },
     {
       "credential": "Bachelor of Science, Aerospace Engineering",
       "school": "Georgia Institute of Technology, Atlanta, GA",
       "when": "May 2025",
-      "detail": "Final GPA: 4.0."
+      "detail": "Final GPA: 4.0.",
+      "photo": {
+        "src": "photo/bs-graduation.webp",
+        "alt": "Patrick Barry in graduation robes, holding his cap.",
+        "caption": "Bachelor's graduation"
+      }
     }
   ],
   "publications": [
@@ -199,6 +209,16 @@
       "src": "photo/chipotle.webp",
       "alt": "Patrick Barry at the original Chipotle.",
       "caption": "The original Chipotle"
+    },
+    {
+      "src": "photo/campfire.webp",
+      "alt": "Patrick Barry roasting a marshmallow over a campfire.",
+      "caption": "Campfire"
+    },
+    {
+      "src": "photo/gt-rooftop.webp",
+      "alt": "Patrick Barry on a Georgia Tech rooftop, with Atlanta behind him.",
+      "caption": "Georgia Tech"
     }
   ],
   "reading": {
@@ -1091,6 +1111,12 @@
         }
       ],
       "images": [
+        {
+          "src": "photo/launch-day.webp",
+          "alt": "Patrick Barry, seen from behind in a Ramblin' Rocket Club shirt, carrying a rocket toward the launch rail.",
+          "caption": "Launch day",
+          "wide": true
+        },
         {
           "src": "assets/img/site/gnc-jet-vanes-rocket_10.webp",
           "alt": "Two circuit boards wired together on a bench.",

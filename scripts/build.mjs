@@ -335,7 +335,7 @@ function projectPage(project) {
     .join("");
   const figures = (project.images || [])
     .map(
-      (image) => `<figure>
+      (image) => `<figure${image.wide ? ' class="wide"' : ""}>
         <img src="../${esc(image.src)}" alt="${esc(image.alt)}" loading="lazy" decoding="async">
         <figcaption>${esc(image.caption)}</figcaption>
       </figure>`

@@ -229,7 +229,7 @@ section { padding: 64px 0; }
 }
 .photo-strip {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin-top: 16px;
 }
@@ -341,8 +341,9 @@ section { padding: 64px 0; }
   background: var(--bg-2);
 }
 .edu-card { display: grid; gap: 14px; }
-.edu-card.has-photo { grid-template-columns: minmax(140px, 220px) 1fr; align-items: center; }
+.edu-card.has-photo { grid-template-columns: minmax(160px, 240px) 1fr; align-items: center; }
 .edu-card .shot { margin: 0; }
+.edu-card .shot img { height: auto; aspect-ratio: 3 / 4; object-fit: cover; }
 .edu-card h3 { margin-top: 4px; }
 .coursework { color: var(--muted); margin: 16px 0 0; max-width: 46rem; }
 .pub p { color: var(--muted); margin: 6px 0 0; }
@@ -409,6 +410,7 @@ section { padding: 64px 0; }
 
 .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0; }
 .gallery figure { margin: 0; }
+.gallery figure.wide { grid-column: 1 / -1; }
 .gallery img { border-radius: 10px; width: 100%; height: auto; background: #0c1016; }
 .gallery figcaption, .video-grid figcaption { color: var(--faint); font-size: 0.85rem; margin-top: 8px; padding: 0 4px 2px; }
 .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -480,7 +482,8 @@ code { font-family: var(--mono); font-size: 0.9em; }
     grid-template-columns: 1fr;
   }
   .interest.wide { grid-column: auto; }
-  .fav-grid, .photo-strip, .resume-row, .edu-card.has-photo { grid-template-columns: 1fr; }
+  .fav-grid, .resume-row, .edu-card.has-photo { grid-template-columns: 1fr; }
+  .photo-strip { grid-template-columns: 1fr 1fr; }
   .pdf-frame { display: none; }
   .pdf-fallback { display: block; }
   .viz canvas { height: 280px; }
