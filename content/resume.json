@@ -4,10 +4,15 @@
   "education": {
     "school": "Georgia Institute of Technology, Atlanta, GA",
     "degrees": [
-      "Bachelor of Science, Aerospace Engineering, May 2025 (Final GPA: 4.0)",
-      "Master of Science, Aerospace Engineering, May 2026 through BS/MS Honors Program"
-    ],
-    "coursework": "Relevant Coursework: Optimal Guidance & Control, Control System Design/Analysis, Robotics & Autonomy, Orbital Mechanics, Optimization-Based Learning & Control, Optical Navigation"
+      {
+        "line": "Bachelor of Science, Aerospace Engineering, May 2025 (Final GPA: 4.0)",
+        "coursework": "Spacecraft Flight Dynamics, Control System Analysis & Design, Dynamics & Controls Lab, Robotics and Autonomy, Numerical Analysis"
+      },
+      {
+        "line": "Master of Science, Aerospace Engineering, May 2026 through BS/MS Honors Program (Final GPA: 4.0)",
+        "coursework": "Optimal Guidance and Control, Optical Navigation, Kalman Filtering, Orbital Mechanics, Machine Learning, Dynamics of Mechanical Systems"
+      }
+    ]
   },
   "skills": [
     { "label": "Software", "text": "ROS, Linux, Git, GMAT, SolidWorks, Siemens NX, Microsoft Office" },

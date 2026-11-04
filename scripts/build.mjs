@@ -191,6 +191,11 @@ function home() {
           <h3>${esc(school.credential)}</h3>
           <p class="org">${esc(school.school)}</p>
           ${school.detail ? `<p>${esc(school.detail)}</p>` : ""}
+          ${
+            school.coursework?.length
+              ? `<p class="coursework"><strong>Relevant Coursework:</strong> ${school.coursework.map((course) => esc(course)).join(", ")}</p>`
+              : ""
+          }
         </div>
       </article>`;
     })
@@ -277,7 +282,6 @@ function home() {
     <div class="wrap">
       <div class="section-head"><h2>Education</h2></div>
       <div class="edu-list">${schools}</div>
-      <p class="coursework">${esc(site.coursework)}</p>
     </div>
   </section>
   <section id="publications">
@@ -492,8 +496,12 @@ function resumeJobs(entries) {
 function resumePage() {
   const doc = resumeDoc;
   const edu = `<p class="org">${esc(doc.education.school)}</p>
-    <ul>${doc.education.degrees.map((line) => `<li>${esc(line)}</li>`).join("")}</ul>
-    <p>${esc(doc.education.coursework)}</p>`;
+    ${doc.education.degrees
+      .map(
+        (degree) => `<ul><li>${esc(degree.line)}</li></ul>
+        <p><strong>Relevant Coursework:</strong> ${esc(degree.coursework)}</p>`
+      )
+      .join("")}`;
   const skills = doc.skills
     .map((row) => `<p><strong>${esc(row.label)}:</strong> ${esc(row.text)}</p>`)
     .join("");

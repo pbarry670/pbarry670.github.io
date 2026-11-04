@@ -345,7 +345,8 @@ section { padding: 64px 0; }
 .edu-card .shot { margin: 0; }
 .edu-card .shot img { height: auto; aspect-ratio: 3 / 4; object-fit: cover; }
 .edu-card h3 { margin-top: 4px; }
-.coursework { color: var(--muted); margin: 16px 0 0; max-width: 46rem; }
+.edu-card .coursework { color: var(--muted); margin: 8px 0 0; max-width: 46rem; }
+.edu-card .coursework strong { color: var(--text); font-weight: 600; }
 .pub p { color: var(--muted); margin: 6px 0 0; }
 .skill-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .skill-group { border-top: 1px solid var(--line); padding-top: 12px; }

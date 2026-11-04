@@ -12,7 +12,7 @@
     "photo": "photo/falcon9.webp"
   },
   "about": [
-    "I finished an M.S. in aerospace engineering at Georgia Tech in May 2026, in the BS/MS honors program. The B.S. was there too, in three years, in May 2025. Undergraduate GPA was 4.0.",
+    "I finished an M.S. in aerospace engineering at Georgia Tech in May 2026, in the BS/MS honors program. The B.S. was there too, in three years, in May 2025. Both GPAs were 4.0.",
     "Before that I interned at Johns Hopkins APL in Summer 2025, on error-state Kalman filters and robust flight control. I also did undergraduate research in the Dynamics and Control Systems Lab, and I led avionics and controls for the Ramblin' Rocket Club for two years.",
     "I live in Los Angeles. I'm originally from Annandale, Virginia, and I went to school in Atlanta. I'm an Eagle Scout, July 2020. I play tennis, run, lift, and read."
   ],
@@ -27,12 +27,20 @@
     "ROS"
   ],
   "resumeNote": "U.S. citizen. Active Top Secret clearance.",
-  "coursework": "Relevant Coursework: Optimal Guidance & Control, Control System Design/Analysis, Robotics & Autonomy, Orbital Mechanics, Optimization-Based Learning & Control, Optical Navigation.",
   "education": [
     {
       "credential": "Master of Science, Aerospace Engineering",
       "school": "Georgia Institute of Technology, Atlanta, GA",
       "when": "May 2026",
+      "detail": "Final GPA: 4.0.",
+      "coursework": [
+        "Optimal Guidance and Control",
+        "Optical Navigation",
+        "Kalman Filtering",
+        "Orbital Mechanics",
+        "Machine Learning",
+        "Dynamics of Mechanical Systems"
+      ],
       "photo": {
         "src": "photo/ms-graduation.webp",
         "alt": "Patrick Barry in graduation robes on Georgia Tech's campus, pointing up.",
@@ -44,6 +52,13 @@
       "school": "Georgia Institute of Technology, Atlanta, GA",
       "when": "May 2025",
       "detail": "Final GPA: 4.0.",
+      "coursework": [
+        "Spacecraft Flight Dynamics",
+        "Control System Analysis & Design",
+        "Dynamics & Controls Lab",
+        "Robotics and Autonomy",
+        "Numerical Analysis"
+      ],
       "photo": {
         "src": "photo/bs-graduation.webp",
         "alt": "Patrick Barry in graduation robes, holding his cap.",

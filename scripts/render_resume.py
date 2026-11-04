@@ -44,10 +44,12 @@ def job(entry):
 
 
 education = resume["education"]
-edu = (
-    f'<p class="org">{esc(education["school"])}</p>'
-    + bullets(education["degrees"])
-    + f'<p class="course">{esc(education["coursework"])}</p>'
+edu = f'<p class="org">{esc(education["school"])}</p>' + "".join(
+    "<ul><li>"
+    + esc(degree["line"])
+    + "</li></ul>"
+    + f'<p class="course"><strong>Relevant Coursework:</strong> {esc(degree["coursework"])}</p>'
+    for degree in education["degrees"]
 )
 skills = "".join(
     f'<p><strong>{esc(row["label"])}:</strong> {esc(row["text"])}</p>' for row in resume["skills"]
@@ -85,7 +87,7 @@ html = f"""<!DOCTYPE html>
   body {{
     font-family: "Times New Roman", Times, "Liberation Serif", serif;
     font-size: 10.5pt;
-    line-height: 1.22;
+    line-height: 1.16;
     color: #111;
   }}
   h1 {{
@@ -102,7 +104,7 @@ html = f"""<!DOCTYPE html>
     margin: 4pt 0 5pt;
   }}
   .contact {{
-    margin: 0 0 10pt;
+    margin: 0 0 8pt;
     text-align: center;
     font-size: 10.5pt;
   }}
@@ -110,7 +112,7 @@ html = f"""<!DOCTYPE html>
     display: grid;
     grid-template-columns: 1.45in 1fr;
     column-gap: 12pt;
-    margin: 0 0 7pt;
+    margin: 0 0 5pt;
   }}
   h2 {{
     margin: 0;
@@ -120,14 +122,14 @@ html = f"""<!DOCTYPE html>
     font-weight: 700;
   }}
   .banner {{
-    margin: 8pt 0 3pt;
+    margin: 6pt 0 2pt;
     color: {BLUE};
     font-size: 11.5pt;
     letter-spacing: 0.04em;
     font-weight: 700;
   }}
   .org, .role {{ margin: 0; font-weight: 700; }}
-  .job {{ margin: 0 0 6pt; break-inside: avoid; }}
+  .job {{ margin: 0 0 4pt; break-inside: avoid; }}
   .course, p {{ margin: 1pt 0; }}
   ul {{ margin: 1pt 0 2pt 1.05em; padding: 0; }}
   li {{ margin: 0; padding: 0; }}

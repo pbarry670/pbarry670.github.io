@@ -36,8 +36,10 @@ lines.append("")
 lines.append("EDUCATION")
 for school in site["education"]:
     lines.append(f"{school['credential']}, {school['school']} — {school['when']}")
-    lines.extend(wrap(school["detail"]))
-lines.extend(wrap(site["coursework"]))
+    if school.get("detail"):
+        lines.extend(wrap(school["detail"]))
+    if school.get("coursework"):
+        lines.extend(wrap("Relevant Coursework: " + ", ".join(school["coursework"])))
 lines.append("")
 lines.append("EXPERIENCE")
 for job in site["experience"]:
